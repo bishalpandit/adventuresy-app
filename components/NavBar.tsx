@@ -4,8 +4,8 @@ import Image from 'next/image'
 const NavBar = () => {
     return (
         <div className='brand-logo flex flex-row justify-between h-11'>
-            <div className='-mt-16'>
-                <Image src='/images/brand.svg' height={250} width={180}  alt='brand-logo' />
+            <div className='h-[150px] w-[140px] relative -mt-6'>
+                <Image src='/images/brand.svg' layout='fill' objectFit="cover"  alt='brand-logo' />
             </div>
             
 
