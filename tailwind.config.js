@@ -5,7 +5,17 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'dark-800': '#0A0B0E',
+      },
+      fontFamily: {
+        body: ["Montserrat", "sans-serif"],
+        poppins: ["Poppins", "sans-serif"],
+        montserrat: ["Montserrat", "serif"],
+        roboto: ["Roboto", "serif"]
+      }
+    },
   },
   plugins: [],
 }
