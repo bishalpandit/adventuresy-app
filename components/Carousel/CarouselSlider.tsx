@@ -39,7 +39,7 @@ const CarouselSlider = () => {
             modules={[Navigation, Pagination, Scrollbar, A11y, EffectCoverflow, FreeMode]}
             breakpoints={{
                 "640": {
-                  "slidesPerView": 1,
+                  "slidesPerView": 2,
                   "spaceBetween": 10
                 },
                 "768": {
@@ -52,7 +52,7 @@ const CarouselSlider = () => {
                 }
               }}
             spaceBetween={60}
-            slidesPerView={1}
+            slidesPerView={2}
             freeMode={true}
             effect={'coverflow'}
             coverflowEffect={{"rotate": 30,

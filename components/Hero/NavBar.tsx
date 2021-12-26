@@ -9,7 +9,7 @@ const NavBar = () => {
             </div>
             
 
-            <div className='nav-items text-white space-x-14 items-center justify-center font-[490] font-sans tracking-wider mt-6 md:flex hidden'>
+            <div className='nav-items text-white space-x-14 items-center justify-center font-[490] font-montserrat tracking-wider mt-6 md:flex hidden'>
                 <a>Adventures</a>
                 <a>Partners</a>
                 <a>Contact</a>
