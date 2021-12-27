@@ -5,15 +5,19 @@ import 'swiper/css'
 import "swiper/css/bundle"
 import AdventureCard from './AdventureCard';
 
-const AdventureSlider = ({ cardsData } : { cardsData: any }) => {
+const AdventureSlider = ({ cardsData }: { cardsData: any }) => {
     return (
-        <div>
+        <div className='w-full mx-auto'>
             <Swiper
                 modules={[Navigation, Pagination, Scrollbar, A11y, EffectCoverflow, FreeMode]}
                 breakpoints={{
-                    "640": {
+                    "540": {
                         "slidesPerView": 2,
                         "spaceBetween": 80
+                    },
+                    "640": {
+                        "slidesPerView": 2,
+                        "spaceBetween": 60
                     },
                     "768": {
                         "slidesPerView": 3,
@@ -24,8 +28,8 @@ const AdventureSlider = ({ cardsData } : { cardsData: any }) => {
                         "spaceBetween": 80
                     }
                 }}
-                spaceBetween={100}
-                slidesPerView={2}
+                spaceBetween={80}
+                slidesPerView={1}
                 freeMode={true}
             >
                 { //@ts-ignore
@@ -35,7 +39,6 @@ const AdventureSlider = ({ cardsData } : { cardsData: any }) => {
                         </SwiperSlide>
                     ))
                 }
-
             </Swiper>
         </div>
     )

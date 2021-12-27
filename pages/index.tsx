@@ -5,7 +5,8 @@ import AdventureCollection from '../components/Adventure/AdventureCollection'
 import CarouselSlider from '../components/Carousel/CarouselSlider'
 import Category from '../components/Category/Category'
 import Hero from '../components/Hero/Hero'
-import NavBar from '../components/Hero/NavBar'
+import NavBar from '../components/Layout/NavBar'
+import Partners from '../components/Partners/Partners'
 
 const Home: NextPage = () => {
   return (
@@ -20,6 +21,7 @@ const Home: NextPage = () => {
       <Category />
       <CarouselSlider />
       <AdventureCollection />
+      <Partners />
     </div>
   )
 }
