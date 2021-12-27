@@ -1,7 +1,7 @@
 import React from 'react'
 import CategoryItem from './CategoryItem'
 
-const Category = () => {
+const Category: () => JSX.Element = () => {
     return (
         <div className='bg-dark-800 max-w-[60%] md:max-w-[75%] mx-auto min-h-[200px] md:h-[200px] mt-16 rounded-3xl'>
             <div className='explore-title title mb-2'>
