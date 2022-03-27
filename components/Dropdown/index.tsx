@@ -148,7 +148,12 @@ export default function Dropdown() {
   )
 }
 
-function EditInactiveIcon(props) {
+type Icon = { 
+  className: string; 
+  "aria-hidden": string; 
+}
+
+function EditInactiveIcon(props: Icon) {
   return (
     <svg
       {...props}
@@ -166,7 +171,7 @@ function EditInactiveIcon(props) {
   )
 }
 
-function EditActiveIcon(props) {
+function EditActiveIcon(props: Icon) {
   return (
     <svg
       {...props}
@@ -184,7 +189,7 @@ function EditActiveIcon(props) {
   )
 }
 
-function DuplicateInactiveIcon(props) {
+function DuplicateInactiveIcon(props: Icon) {
   return (
     <svg
       {...props}
@@ -208,7 +213,7 @@ function DuplicateInactiveIcon(props) {
   )
 }
 
-function DuplicateActiveIcon(props) {
+function DuplicateActiveIcon(props: Icon) {
   return (
     <svg
       {...props}
@@ -232,7 +237,7 @@ function DuplicateActiveIcon(props) {
   )
 }
 
-function ArchiveInactiveIcon(props) {
+function ArchiveInactiveIcon(props: Icon) {
   return (
     <svg
       {...props}
@@ -263,7 +268,7 @@ function ArchiveInactiveIcon(props) {
   )
 }
 
-function ArchiveActiveIcon(props) {
+function ArchiveActiveIcon(props: Icon) {
   return (
     <svg
       {...props}
@@ -294,7 +299,7 @@ function ArchiveActiveIcon(props) {
   )
 }
 
-function MoveInactiveIcon(props) {
+function MoveInactiveIcon(props: Icon) {
   return (
     <svg
       {...props}
@@ -309,7 +314,7 @@ function MoveInactiveIcon(props) {
   )
 }
 
-function MoveActiveIcon(props) {
+function MoveActiveIcon(props: Icon) {
   return (
     <svg
       {...props}
@@ -324,7 +329,7 @@ function MoveActiveIcon(props) {
   )
 }
 
-function DeleteInactiveIcon(props) {
+function DeleteInactiveIcon(props: Icon) {
   return (
     <svg
       {...props}
@@ -347,7 +352,7 @@ function DeleteInactiveIcon(props) {
   )
 }
 
-function DeleteActiveIcon(props) {
+function DeleteActiveIcon(props: Icon) {
   return (
     <svg
       {...props}
@@ -356,7 +361,7 @@ function DeleteActiveIcon(props) {
       xmlns="http://www.w3.org/2000/svg"
     >
       <rect
-        x="5"
+    string
         y="6"
         width="10"
         height="10"
