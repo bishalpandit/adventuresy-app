@@ -7,72 +7,12 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
 
-const imgURLs = [
-  {
-    URL: 'scuba-diving.jpg',
-    id: 0,
-  },
-  {
-    URL: 'snowboarding.jpg',
-    id: 1,
-  },
-  {
-    URL: 'skydiving.webp',
-    id: 2,
-  },
-  {
-    URL: 'kayak.jpg',
-    id: 3,
-  },
-  {
-    URL: 'camping.jpg',
-    id: 4,
-  },
-  {
-    URL: 'paragliding.jpg',
-    id: 5,
-  },
-]
-
-const AdventureCollection = () => {
+const AdventureCollection = (props: any) => {
+  console.log(props.recent);
+  
   let [categories] = useState({
-    Recent: [
-      {
-        id: 1,
-        URL: 'scuba-diving.jpg',
-      },
-      {
-        id: 2,
-        URL: 'snowboarding.jpg',
-        shareCount: 2,
-      },
-      {
-        URL: 'skydiving.webp',
-        shareCount: 2,
-      },
-    ],
-    Popular: [
-      {
-        id: 1,
-        URL: 'kayak.jpg',
-        shareCount: 16,
-      },
-      {
-        id: 2,
-        URL: 'snowboarding.jpg',
-        shareCount: 12,
-      },
-      {
-        id: 3,
-        URL: 'skydiving.webp',
-        shareCount: 12,
-      },
-      {
-        id: 4,
-        URL: 'camping.jpg',
-        shareCount: 12,
-      },
-    ],
+    Recent: props.recent,
+    Popular: props.recent,
     Trending: [
       {
         id: 1,
@@ -112,14 +52,14 @@ const AdventureCollection = () => {
         </Tab.List>
 
         <Tab.Panels className="mt-4">
-          {Object.values(categories).map((cards, idx) => (
+          {Object.values(categories).map((collection, idx) => (
             <Tab.Panel
               key={idx}
               className={classNames(
                 'rounded-xl p-3 '
               )}
             >
-              <AdventureSlider cardsData={cards} />
+              <AdventureSlider collection={collection} />
             </Tab.Panel>
           ))}
         </Tab.Panels>
@@ -127,7 +67,7 @@ const AdventureCollection = () => {
 
       {/* Recommended  */}
       <h2 className='title'>Recommended</h2>
-      <AdventureSlider cardsData={imgURLs} />
+      <AdventureSlider collection={props.recent} />
     </div>
   )
 }

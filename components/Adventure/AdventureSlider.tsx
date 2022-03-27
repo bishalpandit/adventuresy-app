@@ -5,7 +5,11 @@ import 'swiper/css'
 import "swiper/css/bundle"
 import AdventureCard from './AdventureCard';
 
-const AdventureSlider = ({ cardsData }: { cardsData: any }) => {
+
+
+const AdventureSlider = ({ collection }: { collection: any }) => {
+    //console.log(cardsData);
+    
     return (
         <div className='w-full mx-auto'>
             <Swiper
@@ -33,9 +37,9 @@ const AdventureSlider = ({ cardsData }: { cardsData: any }) => {
                 freeMode={true}
             >
                 { //@ts-ignore
-                    cardsData.map((card) => (
-                        <SwiperSlide key={card.id}>
-                            <AdventureCard imgURL={card.URL} />
+                    collection.map((adventure, idx) => (
+                        <SwiperSlide key={idx}>
+                            <AdventureCard key={idx} adventure={adventure} />
                         </SwiperSlide>
                     ))
                 }

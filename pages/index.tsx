@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import AdventureCollection from '../components/Adventure/AdventureCollection'
@@ -7,8 +8,11 @@ import Category from '../components/Category/Category'
 import Hero from '../components/Hero/Hero'
 import NavBar from '../components/Layout/NavBar'
 import Partners from '../components/Partners/Partners'
+import axios from 'axios'
 
-const Home: NextPage = () => {
+
+const Home = (props: any) => {
+  
   return (
     <div className=''>
       <Head>
@@ -21,10 +25,24 @@ const Home: NextPage = () => {
       <Hero />
       <Category />
       <CarouselSlider />
-      <AdventureCollection />
+      <AdventureCollection recent={props.recentAdventures}  />
       <Partners />
     </div>
   )
 }
 
-export default Home
+
+
+export const getStaticProps: GetStaticProps = async () => {
+  const baseURL = 'http://adventuresy.southeastasia.azurecontainer.io';
+
+  const { data: { data: recentAdventures} } = await axios.get(`${baseURL}/api/adventures?ctype=recent`)
+  
+  return ({
+    props: {
+      recentAdventures,
+    }
+  })
+}
+
+export default Home;
