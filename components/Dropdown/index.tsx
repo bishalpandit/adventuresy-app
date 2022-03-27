@@ -148,12 +148,9 @@ export default function Dropdown() {
   )
 }
 
-type Icon = { 
-  className: string; 
-  "aria-hidden": string; 
-}
 
-function EditInactiveIcon(props: Icon) {
+
+function EditInactiveIcon(props: any) {
   return (
     <svg
       {...props}
@@ -171,7 +168,7 @@ function EditInactiveIcon(props: Icon) {
   )
 }
 
-function EditActiveIcon(props: Icon) {
+function EditActiveIcon(props: any) {
   return (
     <svg
       {...props}
@@ -189,7 +186,7 @@ function EditActiveIcon(props: Icon) {
   )
 }
 
-function DuplicateInactiveIcon(props: Icon) {
+function DuplicateInactiveIcon(props: any) {
   return (
     <svg
       {...props}
@@ -213,7 +210,7 @@ function DuplicateInactiveIcon(props: Icon) {
   )
 }
 
-function DuplicateActiveIcon(props: Icon) {
+function DuplicateActiveIcon(props: any) {
   return (
     <svg
       {...props}
@@ -237,7 +234,7 @@ function DuplicateActiveIcon(props: Icon) {
   )
 }
 
-function ArchiveInactiveIcon(props: Icon) {
+function ArchiveInactiveIcon(props: any) {
   return (
     <svg
       {...props}
@@ -268,7 +265,7 @@ function ArchiveInactiveIcon(props: Icon) {
   )
 }
 
-function ArchiveActiveIcon(props: Icon) {
+function ArchiveActiveIcon(props: any) {
   return (
     <svg
       {...props}
@@ -299,7 +296,7 @@ function ArchiveActiveIcon(props: Icon) {
   )
 }
 
-function MoveInactiveIcon(props: Icon) {
+function MoveInactiveIcon(props: any) {
   return (
     <svg
       {...props}
@@ -314,7 +311,7 @@ function MoveInactiveIcon(props: Icon) {
   )
 }
 
-function MoveActiveIcon(props: Icon) {
+function MoveActiveIcon(props: any) {
   return (
     <svg
       {...props}
@@ -329,7 +326,7 @@ function MoveActiveIcon(props: Icon) {
   )
 }
 
-function DeleteInactiveIcon(props: Icon) {
+function DeleteInactiveIcon(props: any) {
   return (
     <svg
       {...props}
@@ -352,7 +349,7 @@ function DeleteInactiveIcon(props: Icon) {
   )
 }
 
-function DeleteActiveIcon(props: Icon) {
+function DeleteActiveIcon(props: any) {
   return (
     <svg
       {...props}
@@ -361,7 +358,6 @@ function DeleteActiveIcon(props: Icon) {
       xmlns="http://www.w3.org/2000/svg"
     >
       <rect
-    string
         y="6"
         width="10"
         height="10"
