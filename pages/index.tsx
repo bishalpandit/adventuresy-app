@@ -10,12 +10,13 @@ import Partners from '../components/Partners/Partners'
 
 const Home: NextPage = () => {
   return (
-    <div className='min-h-screen '>
+    <div className=''>
       <Head>
         <title>Adventuresy</title>
         <meta name="description" content="Go on thrilling adventure activites and sports" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <NavBar />
       <Hero />
       <Category />
