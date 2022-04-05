@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
+import Menu from '../Dropdown'
 
 const NavBar = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
     return (
         <div className='brand-logo flex flex-row justify-between md:justify-around h-11 p-3'>
-            <div className='h-20 md:h-36 w-20 p-6 md:w-36 relative mx-4 md:-mt-6'>
-                <Image src='/images/brand.svg'  layout='fill' objectFit="cover"  alt='brand-logo' />
+            <div className='h-16 md:h-36 w-16 p-6 md:w-36 relative md:-mt-6'>
+                <Image src='/images/brand.svg' layout='fill' objectFit="cover" alt='brand-logo' />
             </div>
 
             <div className='nav-items py-2 text-white space-x-14 items-center justify-center font-[490] font-montserrat tracking-wider mt-6 md:flex hidden'>
@@ -13,9 +16,9 @@ const NavBar = () => {
                 <a>Partners</a>
                 <a>Contact</a>
             </div>
-
-            <div className='avatar p-6'>
-                <Image src='/images/avatar.svg' height={50} width={50} alt='avatar' />
+            
+            <div className='w-20'>
+                <Menu />
             </div>
         </div>
     )

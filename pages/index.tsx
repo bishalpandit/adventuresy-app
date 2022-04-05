@@ -25,7 +25,7 @@ const Home = (props: any) => {
       <Hero />
       <Category />
       <CarouselSlider />
-      <AdventureCollection recent={props.recentAdventures}  />
+      <AdventureCollection recent={props.recentAdventures} popular={props.popularAdventures} trending={props.trendingAdventures}  />
       <Partners />
     </div>
   )
@@ -37,10 +37,14 @@ export const getStaticProps: GetStaticProps = async () => {
   const baseURL = 'http://adventuresy.southeastasia.azurecontainer.io';
 
   const { data: { data: recentAdventures} } = await axios.get(`${baseURL}/api/adventures?ctype=recent`)
+  const { data: { data: popularAdventures} } = await axios.get(`${baseURL}/api/adventures?ctype=popular`)
+  const { data: { data: trendingAdventures} } = await axios.get(`${baseURL}/api/adventures?ctype=trending`)
   
   return ({
     props: {
       recentAdventures,
+      popularAdventures,
+      trendingAdventures,
     }
   })
 }

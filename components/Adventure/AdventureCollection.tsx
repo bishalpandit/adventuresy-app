@@ -12,19 +12,8 @@ const AdventureCollection = (props: any) => {
   
   let [categories] = useState({
     Recent: props.recent,
-    Popular: props.recent,
-    Trending: [
-      {
-        id: 1,
-        URL: 'paragliding.jpg',
-        shareCount: 5,
-      },
-      {
-        id: 2,
-        URL: 'skydiving.webp',
-        shareCount: 2,
-      },
-    ],
+    Popular: props.popular,
+    Trending: props.trending,
   })
 
   return (
