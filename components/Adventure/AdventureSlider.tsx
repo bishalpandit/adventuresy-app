@@ -8,36 +8,37 @@ import AdventureCard from './AdventureCard';
 
 
 const AdventureSlider = ({ collection }: { collection: any }) => {
-    //console.log(cardsData);
     
     return (
         <div className='w-full mx-auto'>
             <Swiper
                 modules={[Navigation, Pagination, Scrollbar, A11y, EffectCoverflow, FreeMode]}
                 breakpoints={{
+                    "320": {
+                        "slidesPerView": 1,
+                        "spaceBetween": 100
+                    },
                     "540": {
                         "slidesPerView": 2,
-                        "spaceBetween": 80
+                        "spaceBetween": 150
                     },
                     "640": {
                         "slidesPerView": 2,
-                        "spaceBetween": 60
+                        "spaceBetween": 150
                     },
                     "768": {
-                        "slidesPerView": 3,
-                        "spaceBetween": 80
+                        "slidesPerView": 2,
+                        "spaceBetween": 180
                     },
                     "1024": {
                         "slidesPerView": 3,
                         "spaceBetween": 80
                     }
                 }}
-                spaceBetween={80}
-                slidesPerView={1}
                 freeMode={true}
             >
-                { //@ts-ignore
-                    collection.map((adventure, idx) => (
+                { 
+                    collection.map((adventure: any, idx: number) => (
                         <SwiperSlide key={idx}>
                             <AdventureCard key={idx} adventure={adventure} />
                         </SwiperSlide>

@@ -34,25 +34,32 @@ const imgURLs = [
 
 const CarouselSlider = () => {
     return (
-        <div className='mt-20 w-full md:w-4/5 mx-auto'>
+        <div className='mt-20 w-[90%] md:w-4/5 mx-auto'>
             <Swiper
             modules={[Navigation, Pagination, Scrollbar, A11y, EffectCoverflow, FreeMode]}
             breakpoints={{
+                "320": {
+                    "slidesPerView": 1,
+                    "spaceBetween": 100
+                },
+                "540": {
+                    "slidesPerView": 2,
+                    "spaceBetween": 150
+                },
                 "640": {
-                  "slidesPerView": 2,
-                  "spaceBetween": 10
+                    "slidesPerView": 2,
+                    "spaceBetween": 150
                 },
                 "768": {
-                  "slidesPerView": 2,
-                  "spaceBetween": 40
+                    "slidesPerView": 2,
+                    "spaceBetween": 40
                 },
                 "1024": {
-                  "slidesPerView": 2,
-                  "spaceBetween": 50
+                    "slidesPerView": 2,
+                    "spaceBetween": 60
                 }
-              }}
-            spaceBetween={60}
-            slidesPerView={2}
+            }}
+            
             freeMode={true}
             effect={'coverflow'}
             coverflowEffect={{"rotate": 30,

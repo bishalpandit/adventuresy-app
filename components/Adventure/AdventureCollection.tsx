@@ -8,7 +8,6 @@ function classNames(...classes: any) {
 }
 
 const AdventureCollection = (props: any) => {
-  console.log(props.recent);
   
   let [categories] = useState({
     Recent: props.recent,

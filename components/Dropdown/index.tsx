@@ -5,8 +5,8 @@ import Image from 'next/image'
 
 export default function Dropdown() {
   return (
-    <div className="w-24 z-20 text-right fixed top-8">
-      <Menu as="div" className="relative inline-block text-left">
+    <div className="w-24 text-right top-8">
+      <Menu as="div" className="z-20 relative inline-block text-left">
         <div>
           <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
             <Image src='/images/avatar.svg' height={50} width={50} alt='avatar' />
