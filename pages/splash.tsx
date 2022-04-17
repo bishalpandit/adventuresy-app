@@ -12,7 +12,7 @@ function Splash() {
                 className="absolute -z-10 w-auto min-w-full min-h-full max-w-none opacity-30"
             >
                 <source
-                    src="/videos/Adventuresy_Splash.webm"
+                    src="http://adventuresy.southeastasia.azurecontainer.io/api/stream/splash"
                     type="video/webm"
                 />
                 Your browser does not support the video tag.
