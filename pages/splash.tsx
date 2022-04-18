@@ -11,7 +11,7 @@ function Splash() {
     useEffect(() => {
         setTimeout(() => {
             setIsLoading(false);
-        }, 4000);
+        }, 6000);
 
         const timer = setInterval(() => {
             setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
@@ -28,7 +28,7 @@ function Splash() {
                 isLoading 
                 ? 
                 <div className='flex flex-col h-screen justify-center items-center'>
-                    <CircularProgress variant="determinate" thickness={4.5} className='text-white' size={60} value={progress} />
+                    <CircularProgress variant="determinate" thickness={4.5} className='!text-white' size={60} value={progress} />
                 </div> 
                 :
                     (
