@@ -40,8 +40,8 @@ function Splash() {
                                 className="absolute -z-10 w-auto min-w-full min-h-full max-w-none opacity-30"
                             >
                                 <source
-                                    src="/videos/Adventuresy_Splash.mp4"
-                                    type="video/mp4"
+                                    src="https://adventuresy-apis.azurewebsites.net/api/stream/splash"
+                                    type="video/webm"
                                 />
                                 Your browser does not support the video tag.
                             </video>

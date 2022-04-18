@@ -34,7 +34,7 @@ const Home = (props: any) => {
 
 
 export const getStaticProps: GetStaticProps = async () => {
-  const baseURL = 'http://adventuresy.southeastasia.azurecontainer.io';
+  const baseURL = 'https://adventuresy-apis.azurewebsites.net';
 
   const { data: { data: recentAdventures} } = await axios.get(`${baseURL}/api/adventures?ctype=recent`)
   const { data: { data: popularAdventures} } = await axios.get(`${baseURL}/api/adventures?ctype=popular`)
