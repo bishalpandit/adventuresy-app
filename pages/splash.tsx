@@ -6,31 +6,26 @@ import CircularProgress from '@mui/material/CircularProgress';
 function Splash() {
 
     const [isLoading, setIsLoading] = useState(true);
-    const [progress, setProgress] = useState(0);
-
-
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
-            window.scrollTo({
-                top: document.body.scrollHeight,
-                left: 0,
-                behavior: 'smooth'
-              });
-        }, 800);
+        if(isLoading)
+            setInterval(() => {
+                window.scrollTo({
+                    top: document.body.scrollHeight,
+                    left: 0,
+                    behavior: 'smooth'
+                });
+            }, 800);
 
-        return () => {
-            clearInterval(timer);
-        };
-    }, []);
+        return clearInterval();
+    })
 
     return (
         <div >
             {
                 isLoading &&
                 <div className={'flex flex-col h-screen justify-center items-center '}>
-                    <CircularProgress variant="determinate" thickness={4.5} className='!text-white' size={60} value={progress} />
+                    <CircularProgress thickness={4.5} className='!text-white' size={60} />
                 </div>
             }
 
@@ -40,8 +35,10 @@ function Splash() {
                     loop
                     muted
                     className="absolute -z-10 w-auto min-w-full min-h-full max-w-none opacity-30"
-                    onPlay={() => { console.log('playing...');
-                    setIsLoading(false)}}
+                    onPlay={() => {
+                        console.log('playing...');
+                        setIsLoading(false)
+                    }}
                 >
                     <source
                         src="https://adventuresy-apis.azurewebsites.net/api/stream/splash"
