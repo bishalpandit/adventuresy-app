@@ -8,24 +8,13 @@ function Splash() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-            setInterval(() => {
-               isLoading && window.scrollTo({
-                    top: document.body.scrollHeight,
-                    left: 0,
-                    behavior: 'smooth'
-                });
-            }, 800);
-    },[isLoading]);
+        setInterval(() => {
+            isLoading && window.scrollTo(0,0);
+        }, 800);
+    }, [isLoading]);
 
     return (
         <div >
-            {
-                isLoading &&
-                <div className={'flex flex-col h-screen justify-center items-center '}>
-                    <CircularProgress thickness={4.5} className='!text-white' size={60} />
-                </div>
-            }
-
             <div className={`relative items-center justify-center h-screen overflow-hidden ${isLoading ? 'h-1' : 'flex'}`}>
                 <video
                     autoPlay
@@ -54,6 +43,12 @@ function Splash() {
                     <button onClick={() => { }} className='font-poppins rounded-md px-3 py-4 bg-white font-medium tracking-widest text-black w-40 md:w-60'>Login</button>
                 </div>
             </div>
+            {
+                isLoading &&
+                <div className={'flex flex-col h-screen justify-center items-center '}>
+                    <CircularProgress thickness={4.5} className='!text-white' size={60} />
+                </div>
+            }
         </div>
     )
 }
