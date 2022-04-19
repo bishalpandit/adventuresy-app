@@ -8,13 +8,16 @@ function Splash() {
     const [isLoading, setIsLoading] = useState(true);
     const [progress, setProgress] = useState(0);
 
-    useEffect(() => {
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 4000);
 
+
+    useEffect(() => {
         const timer = setInterval(() => {
             setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                left: 0,
+                behavior: 'smooth'
+              });
         }, 800);
 
         return () => {
@@ -31,12 +34,14 @@ function Splash() {
                 </div>
             }
 
-            <div className={`relative items-center justify-center h-screen overflow-hidden ${isLoading ? 'hidden' : 'flex'}`}>
+            <div className={`relative items-center justify-center h-screen overflow-hidden ${isLoading ? 'h-1' : 'flex'}`}>
                 <video
                     autoPlay
                     loop
                     muted
                     className="absolute -z-10 w-auto min-w-full min-h-full max-w-none opacity-30"
+                    onPlay={() => { console.log('playing...');
+                    setIsLoading(false)}}
                 >
                     <source
                         src="https://adventuresy-apis.azurewebsites.net/api/stream/splash"
