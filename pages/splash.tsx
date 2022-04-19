@@ -8,20 +8,14 @@ function Splash() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if(isLoading) {
-            console.log('run');
-            
             setInterval(() => {
-                window.scrollTo({
+               isLoading && window.scrollTo({
                     top: document.body.scrollHeight,
                     left: 0,
                     behavior: 'smooth'
                 });
             }, 800);
-
-        return clearInterval();
-        }
-    },[isLoading])
+    },[isLoading]);
 
     return (
         <div >
