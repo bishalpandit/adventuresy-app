@@ -7,8 +7,7 @@ import AdventureCard from './AdventureCard';
 
 
 
-const AdventureSlider = ({ collection }: { collection: any }) => {
-    
+const AdventureSlider = ({ collection }: { collection: [] }) => {
     return (
         <div className='w-full mx-auto'>
             <Swiper

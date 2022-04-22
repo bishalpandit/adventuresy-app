@@ -7,12 +7,12 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
 
-const AdventureCollection = (props: any) => {
+const AdventureCollection = ({ recent, popular, trending}: any) => {
   
   let [categories] = useState({
-    Recent: props.recent,
-    Popular: props.popular,
-    Trending: props.trending,
+    Recent: recent,
+    Popular: popular,
+    Trending: trending,
   })
 
   return (
@@ -55,7 +55,7 @@ const AdventureCollection = (props: any) => {
 
       {/* Recommended  */}
       <h2 className='title'>Recommended</h2>
-      <AdventureSlider collection={props.recent} />
+      <AdventureSlider collection={recent} />
     </div>
   )
 }

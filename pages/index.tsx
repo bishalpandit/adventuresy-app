@@ -13,7 +13,8 @@ import axios from 'axios'
 
 
 const Home = ({ recent, popular, trending }: any) => {
-
+  console.log(recent);
+  
   return (
     <div className=''>
       <Head>
@@ -46,9 +47,9 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return ({
     props: {
-      recent: recent.data,
-      popular: popular.data,
-      trending: trending.data,
+      recent: recent.data.data,
+      popular: popular.data.data,
+      trending: trending.data.data,
     }
   });
 }
