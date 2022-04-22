@@ -7,7 +7,7 @@ import LoginModal from '../components/Modal';
 function Splash() {
 
     const [isLoading, setIsLoading] = useState(true);
-    let [isOpen, setIsOpen] = useState(true)
+    let [isOpen, setIsOpen] = useState(false)
 
     useEffect(() => {
         setInterval(() => {
