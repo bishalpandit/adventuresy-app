@@ -11,8 +11,9 @@ import Partners from '../components/Partners/Partners'
 import axios from 'axios'
 
 
-const Home = (props: any) => {
-  
+
+const Home = ({ recent, popular, trending }: any) => {
+
   return (
     <div className=''>
       <Head>
@@ -25,28 +26,31 @@ const Home = (props: any) => {
       <Hero />
       <Category />
       <CarouselSlider />
-      <AdventureCollection recent={props.recentAdventures} popular={props.popularAdventures} trending={props.trendingAdventures}  />
+      <AdventureCollection recent={recent} popular={popular} trending={trending} />
       <Partners />
     </div>
   )
 }
 
-
-
 export const getStaticProps: GetStaticProps = async () => {
   const baseURL = 'https://adventuresy-apis.azurewebsites.net';
 
-  const { data: { data: recentAdventures} } = await axios.get(`${baseURL}/api/adventures?ctype=recent`)
-  const { data: { data: popularAdventures} } = await axios.get(`${baseURL}/api/adventures?ctype=popular`)
-  const { data: { data: trendingAdventures} } = await axios.get(`${baseURL}/api/adventures?ctype=trending`)
-  
+  let endpoints = [
+    `${baseURL}/api/adventures?ctype=recent`,
+    `${baseURL}/api/adventures?ctype=popular`,
+    `${baseURL}/api/adventures?ctype=trending`
+  ];
+
+  const [recent, popular, trending] = await axios.all(endpoints
+    .map((endpoint) => axios.get(endpoint)));
+
   return ({
     props: {
-      recentAdventures,
-      popularAdventures,
-      trendingAdventures,
+      recent: recent.data,
+      popular: popular.data,
+      trending: trending.data,
     }
-  })
+  });
 }
 
 export default Home;

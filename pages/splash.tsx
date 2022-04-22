@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import CircularProgress from '@mui/material/CircularProgress';
+import LoginModal from '../components/Modal';
 
 function Splash() {
 
     const [isLoading, setIsLoading] = useState(true);
+    let [isOpen, setIsOpen] = useState(true)
 
     useEffect(() => {
         setInterval(() => {
-            isLoading && window.scrollTo(0,0);
+            isLoading && window.scrollTo(0, 0);
         }, 800);
     }, [isLoading]);
 
@@ -37,11 +39,12 @@ function Splash() {
                     <Image src='/logo.png' height={50} width={182} alt='brand-logo' />
                 </div>
 
-                <div className='mid-content space-y-8 h-screen flex flex-col justify-center items-center z-20 px-6 md:px-1'>
+                <div className='mid-content space-y-8 h-screen flex flex-col justify-center items-center z-5 px-6 md:px-1'>
                     <h1 className='font-poppins font-extrabold md:font-bold text-2xl md:text-5xl'>Your World of Adventures</h1>
                     <p className='font-poppins text-sm font-[450] text-justify'>Explore adventures, attend local events, go on animal safaris. Just dive in!</p>
-                    <button onClick={() => { }} className='font-poppins rounded-md px-3 py-4 bg-white font-medium tracking-widest text-black w-40 md:w-60'>Login</button>
+                    <button onClick={() => setIsOpen((prev) => !prev)} className='font-poppins rounded-md px-3 py-4 bg-white font-medium tracking-widest text-black w-40 md:w-60'>Login</button>
                 </div>
+                <LoginModal open={[isOpen, setIsOpen]} />
             </div>
             {
                 isLoading &&
