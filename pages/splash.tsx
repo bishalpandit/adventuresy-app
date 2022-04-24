@@ -2,17 +2,20 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import CircularProgress from '@mui/material/CircularProgress';
-import LoginModal from '../components/Modal';
+import LoginModal from '../components/Modal/Login';
+import baseURL from '../utils/baseURL';
 
 function Splash() {
 
     const [isLoading, setIsLoading] = useState(true);
-    let [isOpen, setIsOpen] = useState(false)
+    let [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        setInterval(() => {
+        const intervalId = setInterval(() => {
             isLoading && window.scrollTo(0, 0);
         }, 800);
+
+        return () => clearInterval(intervalId);
     }, [isLoading]);
 
     return (
@@ -24,12 +27,11 @@ function Splash() {
                     muted
                     className="absolute -z-10 w-auto min-w-full min-h-full max-w-none opacity-30"
                     onPlay={() => {
-                        console.log('playing...');
                         setIsLoading(false)
                     }}
                 >
                     <source
-                        src="https://adventuresy-apis.azurewebsites.net/api/stream/splash"
+                        src={`${baseURL}/api/stream/splash`}
                         type="video/webm"
                     />
                     Your browser does not support the video tag.
@@ -56,4 +58,4 @@ function Splash() {
     )
 }
 
-export default Splash
+export default Splash;

@@ -1,3 +1,3 @@
-const baseURL = 'http://adventuresy.southeastasia.azurecontainer.io';
+const baseURL = 'https://adventuresy-apis.azurewebsites.net';
 
 export default baseURL;

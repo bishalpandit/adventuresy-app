@@ -1,18 +1,21 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Tab } from '@headlessui/react'
 import AdventureCard from './AdventureCard'
 import AdventureSlider from './AdventureSlider'
+import { collection } from '../../store'
+import { useRecoilValue } from 'recoil'
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
 
-const AdventureCollection = ({ recent, popular, trending}: any) => {
-  
-  let [categories] = useState({
-    Recent: recent,
-    Popular: popular,
-    Trending: trending,
+const AdventureCollection = () => {
+  const collectionVal = useRecoilValue(collection);
+
+  let [categories, setCategories] = useState({
+    Recent: [],
+    Popular: [],
+    Trending: [],
   })
 
   return (
@@ -40,7 +43,8 @@ const AdventureCollection = ({ recent, popular, trending}: any) => {
         </Tab.List>
 
         <Tab.Panels className="mt-4">
-          {Object.values(categories).map((collection, idx) => (
+          {Object.values(collectionVal).map((collection, idx) => (
+
             <Tab.Panel
               key={idx}
               className={classNames(
@@ -55,7 +59,7 @@ const AdventureCollection = ({ recent, popular, trending}: any) => {
 
       {/* Recommended  */}
       <h2 className='title'>Recommended</h2>
-      <AdventureSlider collection={recent} />
+      <AdventureSlider collection={collectionVal.recent as any} />
     </div>
   )
 }
