@@ -2,8 +2,13 @@ import { Menu, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useSetRecoilState } from 'recoil'
+import { auth } from '../../store'
 
 export default function Dropdown() {
+  const setAuth = useSetRecoilState(auth);
+
   return (
     <div className="w-24 text-right top-8">
       <Menu as="div" className="z-20 relative inline-block text-left">
@@ -25,23 +30,27 @@ export default function Dropdown() {
             <div className="px-1 py-1 ">
               <Menu.Item>
                 {({ active }) => (
-                  <button
-                    className={`${active ? 'bg-sky-500 text-white' : 'text-gray-900'
-                      } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                  >
-                    {active ? (
-                      <EditActiveIcon
-                        className="w-5 h-5 mr-2"
-                        aria-hidden="true"
-                      />
-                    ) : (
-                      <EditInactiveIcon
-                        className="w-5 h-5 mr-2"
-                        aria-hidden="true"
-                      />
-                    )}
-                    Profile
-                  </button>
+                  <div>
+                    <Link href="/profile" passHref={true} shallow={true}>
+                      <button
+                        className={`${active ? 'bg-sky-500 text-white' : 'text-gray-900'
+                          } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      >
+                        {active ? (
+                          <EditActiveIcon
+                            className="w-5 h-5 mr-2"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <EditInactiveIcon
+                            className="w-5 h-5 mr-2"
+                            aria-hidden="true"
+                          />
+                        )}
+                        Profile
+                      </button>
+                    </Link>
+                  </div>
                 )}
               </Menu.Item>
               <Menu.Item>
@@ -72,6 +81,7 @@ export default function Dropdown() {
                   <button
                     className={`${active ? 'bg-sky-500 text-white' : 'text-gray-900'
                       } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                      onClick={() => setAuth(null)}
                   >
                     {active ? (
                       <ArchiveActiveIcon
@@ -91,8 +101,8 @@ export default function Dropdown() {
             </div>
           </Menu.Items>
         </Transition>
-      </Menu>
-    </div>
+      </Menu >
+    </div >
   )
 }
 

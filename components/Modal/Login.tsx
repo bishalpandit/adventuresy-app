@@ -3,7 +3,7 @@ import { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useSetRecoilState } from 'recoil'
-import { auth } from '../../store'
+import { auth, user } from '../../store'
 import Loader from '../Loader';
 import { useRouter } from 'next/router';
 import baseURL from '../../utils/baseURL';
@@ -12,6 +12,7 @@ export default function Modal({ open }: any) {
     const [isOpen, setIsOpen] = open;
     const [loading, setLoading] = useState(false);
     const setAuth = useSetRecoilState(auth);
+    const setUser = useSetRecoilState(user);
 
     const {
         register,
@@ -40,9 +41,12 @@ export default function Modal({ open }: any) {
 
             //localStorage.setItem('accessToken', userData.token);
             setAuth(userData.token);
-            setLoading(false);
-            router.push('/', undefined, { shallow: true });
+            delete userData.token;
+            setUser(userData);
             
+            router.push('/', undefined, { shallow: true });
+
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
