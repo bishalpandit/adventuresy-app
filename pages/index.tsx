@@ -26,10 +26,9 @@ const Home = () => {
   const setCollection = useSetRecoilState(collection);
   const accessToken = useRecoilValue(auth);
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
 
     if (!accessToken) {
       router.push('/splash', undefined, { shallow: true });

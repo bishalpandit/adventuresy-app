@@ -11,13 +11,14 @@ import { CircularProgress } from '@mui/material'
 function Profile() {
     const accessToken = useRecoilValue(auth);
     const router = useRouter();
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const { first_name, last_name, email_id, mobile } = useRecoilValue(user) as any;
 
     useEffect(() => {
         if (!accessToken) {
-            setLoading(true);
             router.push('/splash', undefined, { shallow: true });
+        }
+        else {
             setLoading(false);
         }
     }, [router, accessToken]);
