@@ -45,18 +45,19 @@ export default function Modal({ open }: any) {
 
         try {
             setLoading(true);
-
-            const { data: userData } = await axios
-                .post(`${baseURL}/api/users/signin`, {
+            await axios
+                .post(`${baseURL}/api/auth/login`, {
                     email: data.email,
                     password: data.password
-                }, config);
+                }, config)
+                .then(res => {
+                    router.push('/', undefined, { shallow: true });
+                    setLoading(false);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
 
-            // setAuth(userData.token);
-
-            router.push('/', undefined, { shallow: true });
-
-            setLoading(false);
         } catch (error) {
             console.log(error);
         }
