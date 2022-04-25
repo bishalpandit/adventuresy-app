@@ -28,7 +28,7 @@ export default function Modal({ open }: any) {
             if (typeof window !== "undefined") {
                 setLoading(true);
                 const googleLoginURL: any = `${baseURL}/api/auth/login/google`;
-                window.location = googleLoginURL;
+                window.location.href = googleLoginURL;
             }
         } catch (error) {
             console.log(error);
