@@ -13,7 +13,7 @@ function Profile() {
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const { authUser, isAuthenticated } = auth as any;
-    let first_name, last_name, email_id, mobile;
+    let first_name = '', last_name = '', email_id = '', mobile = ''; 
 
     first_name = authUser.first_name;
     last_name = authUser.last_name;
