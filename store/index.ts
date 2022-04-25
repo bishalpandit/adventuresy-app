@@ -25,6 +25,6 @@ export const authState = atom<Auth>({
     key: 'authState',
     default: {
         isAuthenticated: false,
-        authUser: null,
+        authUser: {},
     }
 });
