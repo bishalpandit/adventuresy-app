@@ -1,3 +1,3 @@
-const baseURL = 'https://adventuresy-apis.azurewebsites.net';
+const baseURL = 'http://localhost:5000';
 
 export default baseURL;

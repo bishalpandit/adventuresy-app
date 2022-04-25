@@ -1,27 +1,45 @@
 import React, { useEffect, useState } from 'react'
-import { accordionClasses, Avatar } from "@mui/material";
 import Button from '../components/Button';
 import Image from 'next/image';
-import { user } from '../store'
-import { useRecoilValue } from 'recoil'
-import { collection, auth } from '../store'
+import { useRecoilState } from 'recoil'
+import { authState } from '../store'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@mui/material'
+import axios from 'axios'
+import baseURL from '../utils/baseURL';
 
 function Profile() {
-    const accessToken = useRecoilValue(auth);
+    const [auth, setAuth] = useRecoilState(authState);
     const router = useRouter();
     const [loading, setLoading] = useState(true);
-    const { first_name, last_name, email_id, mobile } = useRecoilValue(user) as any;
+    const { authUser, isAuthenticated } = auth;
+    const { first_name, last_name, email_id, mobile } = authUser as any;
 
     useEffect(() => {
-        if (!accessToken) {
-            router.push('/splash', undefined, { shallow: true });
+        const checkAuth = async () => {
+            await axios
+                .get(`${baseURL}/api/auth/user`, { withCredentials: true })
+                .then(res => {
+                    const auth = res.data;
+
+                    if (auth.status) {
+                        setAuth({
+                            isAuthenticated: true,
+                            authUser: auth.user
+                        })
+                        setLoading(false);
+                    } else {
+                        setAuth({
+                            isAuthenticated: false,
+                            authUser: null
+                        });
+                        router.push('/splash', undefined, { shallow: true });
+                    }
+                })
         }
-        else {
-            setLoading(false);
-        }
-    }, [router, accessToken]);
+
+        checkAuth();
+    }, []);
 
     return (
         loading ?

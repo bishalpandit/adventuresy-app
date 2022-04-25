@@ -4,10 +4,35 @@ import { ChevronDownIcon } from '@heroicons/react/solid'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSetRecoilState } from 'recoil'
-import { auth } from '../../store'
+import { authState } from '../../store'
+import axios from 'axios'
+import baseURL from '../../utils/baseURL'
+import { useRouter } from 'next/router'
 
 export default function Dropdown() {
-  const setAuth = useSetRecoilState(auth);
+  const setAuth = useSetRecoilState(authState);
+
+  const router = useRouter();
+
+  const logoutHandler = async () => {
+
+    await axios
+      .get(`${baseURL}/api/auth/logout`, { withCredentials: true })
+      .then(res => {
+        console.log(res.data);
+        setAuth({
+          isAuthenticated: false,
+          authUser: null
+        })
+        router.push('/splash', undefined, { shallow: true });
+      })
+      .catch(err => {
+        console.log(err);
+        
+      })
+
+  }
+
 
   return (
     <div className="w-24 text-right top-8">
@@ -81,7 +106,7 @@ export default function Dropdown() {
                   <button
                     className={`${active ? 'bg-sky-500 text-white' : 'text-gray-900'
                       } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                      onClick={() => setAuth(null)}
+                    onClick={logoutHandler}
                   >
                     {active ? (
                       <ArchiveActiveIcon

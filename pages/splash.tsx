@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import CircularProgress from '@mui/material/CircularProgress';
-import LoginModal from '../components/Modal/Login';
 import baseURL from '../utils/baseURL';
+import dynamic from 'next/dynamic'
+const LoginModal = dynamic(
+  () => import('../components/Modal/Login'),
+  { ssr: false }
+)
 
 function Splash() {
 

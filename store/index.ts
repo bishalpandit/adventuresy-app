@@ -1,11 +1,18 @@
-import { atom } from "recoil";
+import { atom, RecoilState } from "recoil";
 
-export const user = atom({
-    key: 'userState',
-    default: {},
-});
+interface Auth {
+    isAuthenticated: boolean;
+    authUser: Object | null;
+}
 
-export const collection = atom({
+interface Collection {
+    recent: [];
+    popular: [];
+    trending: [];
+}
+
+
+export const collection = atom<Collection>({
     key: 'collectionState',
     default: {
         recent: [],
@@ -14,7 +21,10 @@ export const collection = atom({
     }
 })
 
-export const auth = atom({
+export const authState = atom<Auth>({
     key: 'authState',
-    default: null
-})
+    default: {
+        isAuthenticated: false,
+        authUser: null,
+    }
+});

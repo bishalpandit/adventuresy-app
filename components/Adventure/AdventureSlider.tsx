@@ -38,7 +38,7 @@ const AdventureSlider = ({ collection }: { collection: any }) => {
                 freeMode={true}
             >
                 { 
-                    collection.map((adventure: any, idx: number) => (
+                    collection?.map((adventure: any, idx: number) => (
                         <SwiperSlide key={idx}>
                             <AdventureCard key={idx} adventure={adventure} />
                         </SwiperSlide>

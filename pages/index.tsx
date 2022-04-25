@@ -1,8 +1,5 @@
-import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
-import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
 import AdventureCollection from '../components/Adventure/AdventureCollection'
 import CarouselSlider from '../components/Carousel/CarouselSlider'
 import Category from '../components/Category/Category'
@@ -11,8 +8,8 @@ import NavBar from '../components/Layout/NavBar'
 import Partners from '../components/Partners/Partners'
 import axios from 'axios'
 import baseURL from '../utils/baseURL'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { collection, auth } from '../store'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { collection, authState } from '../store'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@mui/material'
 
@@ -24,45 +21,59 @@ let endpoints = [
 
 const Home = () => {
   const setCollection = useSetRecoilState(collection);
-  const accessToken = useRecoilValue(auth);
-  const router = useRouter();
+  const [auth, setAuth] = useRecoilState(authState);
   const [loading, setLoading] = useState(true);
 
+  const router = useRouter();
+
   useEffect(() => {
+    const checkAuth = async () => {
+      await axios
+        .get(`${baseURL}/api/auth/user`, { withCredentials: true })
+        .then(res => {
+          const auth = res.data;
+          console.log(auth);
 
-    if (!accessToken) {
-      router.push('/splash', undefined, { shallow: true });
-    }
-    else {
-      const fetchData = async () => {
-        const config = {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`
-          }
-        }
-
-        await axios.all(endpoints
-          .map((endpoint) => axios.get(endpoint, config)))
-          .then((values) => {
-            console.log(values);
-
-            setCollection((prev) => {
-              return {
-                ...prev,
-                recent: values[0].data.data,
-                popular: values[1].data.data,
-                trending: values[2].data.data
-              }
-            });
-
+          if (auth.status == true) {
+            setAuth({
+              isAuthenticated: true,
+              authUser: auth.user
+            })
+            fetchData();
             setLoading(false);
-          });
-      }
-
-      fetchData();
+          } else {
+            setAuth({
+              isAuthenticated: false,
+              authUser: null
+            });
+            router.push('/splash', undefined, { shallow: true });
+          }
+        })
     }
 
-  }, [setCollection, router, accessToken]);
+    const fetchData = async () => {
+
+      await axios.all(endpoints
+        .map((endpoint) => axios.get(endpoint, { withCredentials: true })))
+        .then((values) => {
+
+          setCollection((prev) => {
+            return {
+              ...prev,
+              recent: values[0].data.data,
+              popular: values[1].data.data,
+              trending: values[2].data.data
+            }
+          });
+
+        });
+    }
+
+    checkAuth();
+
+  }, []);
+
+
 
   return (
     <div >
