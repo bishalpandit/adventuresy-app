@@ -12,8 +12,13 @@ function Profile() {
     const [auth, setAuth] = useRecoilState(authState);
     const router = useRouter();
     const [loading, setLoading] = useState(true);
-    const { authUser, isAuthenticated } = auth;
-    const { first_name, last_name, email_id, mobile } = authUser as any;
+    const { authUser, isAuthenticated } = auth as any;
+    let first_name, last_name, email_id, mobile;
+
+    first_name = authUser.first_name;
+    last_name = authUser.last_name;
+    email_id = authUser.email_id;
+    mobile = authUser.mobile;
 
     useEffect(() => {
         const checkAuth = async () => {
