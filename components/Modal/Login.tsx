@@ -8,6 +8,7 @@ import Loader from '../Loader';
 import { useRouter } from 'next/router';
 import baseURL from '../../utils/baseURL';
 import GoogleButton from 'react-google-button';
+import { DangerToast } from '../Toast';
 
 export default function Modal({ open }: any) {
     const [isOpen, setIsOpen] = open;
@@ -37,30 +38,24 @@ export default function Modal({ open }: any) {
     }
 
     const handleFormSubmit = async (data: any) => {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-
-        try {
-            setLoading(true);
-            await axios
-                .post(`${baseURL}/api/auth/login`, {
-                    email: data.email,
-                    password: data.password
-                }, config)
-                .then(res => {
-                    router.push('/', undefined, { shallow: true });
-                    setLoading(false);
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-
-        } catch (error) {
-            console.log(error);
-        }
+        setLoading(true);
+        await axios
+            .post(`${baseURL}/api/auth/login`, {
+                email: data.email,
+                password: data.password
+            }, { withCredentials: true })
+            .then(res => {
+                router.push('/', undefined, { shallow: true });
+                setLoading(false);
+            })
+            .catch(err => {
+                console.log(err);
+                setLoading(false);
+                setIsOpen(false);
+                return (
+                    <DangerToast />
+                )
+            })
     }
 
     return (
