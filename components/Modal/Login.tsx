@@ -51,9 +51,6 @@ export default function Modal({ open }: any) {
                 console.log(err);
                 setLoading(false);
                 setIsOpen(false);
-                return (
-                    <DangerToast />
-                )
             })
     }
 
