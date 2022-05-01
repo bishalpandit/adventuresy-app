@@ -8,7 +8,6 @@ import Loader from '../Loader';
 import { useRouter } from 'next/router';
 import baseURL from '../../utils/baseURL';
 import GoogleButton from 'react-google-button';
-import { DangerToast } from '../Toast';
 
 export default function Modal({ open }: any) {
     const [isOpen, setIsOpen] = open;
@@ -52,9 +51,6 @@ export default function Modal({ open }: any) {
                 console.log(err);
                 setLoading(false);
                 setIsOpen(false);
-                return (
-                    <DangerToast />
-                )
             })
     }
 
