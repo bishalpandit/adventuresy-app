@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import AdventureCollection from '../components/Adventure/AdventureCollection'
-import CarouselSlider from '../components/Carousel/CarouselSlider'
-import Category from '../components/Category/Category'
-import Hero from '../components/Hero/Hero'
-import NavBar from '../components/Layout/NavBar'
-import Partners from '../components/Partners/Partners'
+const AdventureCollection = dynamic(() => import('../components/Adventure/AdventureCollection'));
+const CarouselSlider = dynamic(() => import('../components/Carousel/CarouselSlider'));
+const Category = dynamic(() => import('../components/Category/Category'));
+const Hero = dynamic(() => import('../components/Hero/Hero'));
+const NavBar = dynamic(() => import('../components/Layout/NavBar'))
+const Partners = dynamic(() => import('../components/Partners/Partners'))
 import axios from 'axios'
 import baseURL from '../utils/baseURL'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { collection, authState } from '../store'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@mui/material'
+
 
 let endpoints = [
   `${baseURL}/api/adventures?ctype=recent`,

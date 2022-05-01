@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Tab } from '@headlessui/react'
 import AdventureCard from './AdventureCard'
 import AdventureSlider from './AdventureSlider'
-import { collection } from '../../store'
+import { collection, authState } from '../../store'
 import { useRecoilValue } from 'recoil'
 
 function classNames(...classes: any) {
@@ -11,6 +11,9 @@ function classNames(...classes: any) {
 
 const AdventureCollection = () => {
   const collectionVal = useRecoilValue(collection);
+  const auth = useRecoilValue<any>(authState);
+  console.log(auth.authUser);
+  
 
   let [categories, setCategories] = useState({
     Recent: [],
@@ -19,11 +22,11 @@ const AdventureCollection = () => {
   })
 
   return (
-    <div className="w-[85%] flex flex-col ml-14 gap-14 mt-20">
+    <div className="w-[90%] flex flex-col ml-4 md:ml-16 gap-14 mt-20">
       {/* Slider with Categories  */}
       <Tab.Group>
 
-        <Tab.List className="flex p-1 ml-4 space-x-1 min-w-[260px] w-1/2 bg-blue-900/20 rounded-xl">
+        <Tab.List className="flex p-1  space-x-1 min-w-[260px] w-1/4 md:w-1/3 bg-blue-900/20 rounded-xl">
           {Object.keys(categories).map((category) => (
             <Tab
               key={category}
@@ -58,7 +61,7 @@ const AdventureCollection = () => {
       </Tab.Group>
 
       {/* Recommended  */}
-      <h2 className='title'>Recommended</h2>
+      <h2 className='title'>Top picks for {auth.authUser?.first_name}</h2>
       <AdventureSlider collection={collectionVal.recent as any} />
     </div>
   )

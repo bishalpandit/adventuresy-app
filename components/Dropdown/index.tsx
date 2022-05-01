@@ -78,7 +78,7 @@ export default function Dropdown() {
                   </div>
                 )}
               </Menu.Item>
-              <Menu.Item>
+              {/* <Menu.Item>
                 {({ active }) => (
                   <button
                     className={`${active ? 'bg-sky-500 text-white' : 'text-gray-900'
@@ -98,7 +98,7 @@ export default function Dropdown() {
                     Reservations
                   </button>
                 )}
-              </Menu.Item>
+              </Menu.Item> */}
             </div>
             <div className="px-1 py-1">
               <Menu.Item>

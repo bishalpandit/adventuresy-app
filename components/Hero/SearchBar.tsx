@@ -3,7 +3,7 @@ import { SearchIcon } from '@heroicons/react/outline'
 
 const SearchBar = () => {
     return (
-        <div className='w-[85%] h-16 invisible md:visible bg-white rounded-full shadow-md px-4'>
+        <div className='w-full h-16 hidden lg:block bg-white rounded-full shadow-md px-4'>
             <form>
                 <div className='flex flex-row divide-x-2 px-2 gap-x-10 text-black/90 font-[580] tracking-wide font-roboto text-sm'>
                     <div className='p-2 basis-4/12'>

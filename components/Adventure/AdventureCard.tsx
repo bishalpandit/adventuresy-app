@@ -6,7 +6,7 @@ const imgBaseURL = 'https://cscentralindia100320012c.blob.core.windows.net/adven
 
 const AdventureCard = ({ adventure } : { adventure: any }) => {
     return (
-        <div className='min-h-[280px] min-w-[300px] transition duration-250 md:w-[300px] md:h-[280px] lg:w-[300px] lg:h-[280px] relative cursor-pointer'>
+        <div className='min-h-[280px] min-w-max transition duration-250 relative cursor-pointer '>
             <Image src={`${imgBaseURL}/${adventure.img_link}`} className='rounded-3xl opacity-[0.9]' layout='fill' objectFit='cover' alt='adventure-card-img' />
 
             <div className='inset-x-4 inset-y-32 space-y-3 absolute font-poppins tracking-wider w-[60%]'>

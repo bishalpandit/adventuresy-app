@@ -35,6 +35,7 @@ const imgURLs = [
 const CarouselSlider = () => {
     return (
         <div className='mt-20 w-[90%] md:w-4/5 mx-auto'>
+            <h2 className='mb-4 title'>Discover</h2>
             <Swiper
             modules={[Navigation, Pagination, Scrollbar, A11y, EffectCoverflow, FreeMode]}
             breakpoints={{

@@ -11,10 +11,6 @@ const PartnersData = [
         key: 1,
     },
     {
-        URL: 'techtab.svg',
-        key: 2,
-    },
-    {
         URL: 'schwager.svg',
         key: 3,
     },
@@ -22,8 +18,8 @@ const PartnersData = [
 
 const Partners = () => {
     return (
-        <div className='flex flex-col ml-12 my-20 gap-y-6'>
-            <h2 className='title '>Partners</h2>
+        <div className='flex flex-col ml-4 md:ml-14 my-20 gap-y-6'>
+            <h2 className='title '>Top Partners</h2>
             <div className='flex flex-col sm:flex-row items-center space-y-16 justify-evenly -ml-16'>
                 {PartnersData.map(item => (
                     <Partner key={item.key} imgURL={item.URL} />
