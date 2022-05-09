@@ -35,7 +35,7 @@ const Home = () => {
           const auth = res.data;
           console.log(auth);
 
-          if (auth.status == false) {
+          if (auth.status == true) {
             setAuth({
               isAuthenticated: true,
               authUser: auth.user
