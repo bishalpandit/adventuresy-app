@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import baseURL from '../../utils/baseURL';
 import GoogleButton from 'react-google-button';
 
-export default function Modal({ open }: any) {
+export default function LoginModal({ open }: any) {
     const [isOpen, setIsOpen] = open;
     const [loading, setLoading] = useState(false);
     const setAuth = useSetRecoilState(authState);
@@ -36,7 +36,7 @@ export default function Modal({ open }: any) {
         }
     }
 
-    const handleFormSubmit = async (data: any) => {
+    const handleLogin = async (data: any) => {
         setLoading(true);
         await axios
             .post(`${baseURL}/api/auth/login`, {
@@ -106,7 +106,7 @@ export default function Modal({ open }: any) {
                                                 Sign in
                                             </Dialog.Title>
                                             <div className="mt-2">
-                                                <form onSubmit={handleSubmit(handleFormSubmit)} className="px-6 pb-4 flex flex-col space-y-6 lg:px-8 sm:pb-6 xl:pb-8" action="#">
+                                                <form onSubmit={handleSubmit(handleLogin)} className="px-6 pb-4 flex flex-col space-y-6 lg:px-8 sm:pb-6 xl:pb-8" action="#">
                                                     <div>
                                                         <label className="block mb-2 text-sm font-medium text-gray-900 ">Your email</label>
                                                         <input {...register("email")} type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" placeholder="hello@adventuresy.app" required />

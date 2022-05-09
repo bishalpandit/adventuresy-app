@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import AdventureCollection from '../components/Adventure/AdventureCollection';
 import CarouselSlider from '../components/Carousel/CarouselSlider';
@@ -36,7 +35,7 @@ const Home = () => {
           const auth = res.data;
           console.log(auth);
 
-          if (auth.status == true) {
+          if (auth.status == false) {
             setAuth({
               isAuthenticated: true,
               authUser: auth.user
