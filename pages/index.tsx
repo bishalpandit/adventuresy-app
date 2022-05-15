@@ -1,24 +1,20 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
+import axios from 'axios';
+import baseURL from '../utils/baseURL';
+import { useSetRecoilState } from 'recoil';
+import { collection, authState } from '../store';
+import { useRouter } from 'next/router';
 import AdventureCollection from '../components/Adventure/AdventureCollection';
 import CarouselSlider from '../components/Carousel/CarouselSlider';
 import Category from '../components/Category/Category';
 import Hero from '../components/Hero/Hero';
 import NavBar from '../components/Layout/NavBar';
 import Partners from '../components/Partners/Partners';
-import axios from 'axios';
-import baseURL from '../utils/baseURL';
-import { useSetRecoilState } from 'recoil';
-import { collection, authState } from '../store';
-import { useRouter } from 'next/router';
 import { CircularProgress } from '@mui/material';
 
 
-let endpoints = [
-  `${baseURL}/api/adventures?ctype=recent`,
-  `${baseURL}/api/adventures?ctype=popular`,
-  `${baseURL}/api/adventures?ctype=trending`
-];
+let endpoint = `${baseURL}/api/adventures?collections=trending&collections=popular&collections=recent&limit=5`;
 
 const Home = () => {
   const setCollection = useSetRecoilState(collection);
@@ -41,7 +37,6 @@ const Home = () => {
               authUser: auth.user
             })
             fetchData();
-            setLoading(false);
           } else {
             setAuth({
               isAuthenticated: false,
@@ -53,26 +48,17 @@ const Home = () => {
     }
 
     const fetchData = async () => {
-
-      await axios.all(endpoints
-        .map((endpoint) => axios.get(endpoint, { withCredentials: true })))
-        .then((values) => {
-
-          setCollection((prev) => {
-            return {
-              ...prev,
-              recent: values[0].data.data,
-              popular: values[1].data.data,
-              trending: values[2].data.data
-            }
-          });
-
-        });
+      await axios.get(endpoint, { withCredentials: true })
+        .then((res) => {
+          const collections = res.data.data;
+          setCollection(collections);
+          setLoading(false);
+        })
     }
 
     checkAuth();
 
-  }, []);
+  }, [router, setAuth, setCollection]);
 
 
 

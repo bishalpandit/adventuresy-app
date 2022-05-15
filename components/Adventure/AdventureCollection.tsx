@@ -12,14 +12,7 @@ function classNames(...classes: any) {
 const AdventureCollection = () => {
   const collectionVal = useRecoilValue(collection);
   const auth = useRecoilValue<any>(authState);
-  console.log(auth.authUser);
-  
-
-  let [categories, setCategories] = useState({
-    Recent: [],
-    Popular: [],
-    Trending: [],
-  })
+  console.log(collectionVal);
 
   return (
     <div className="w-[90%] flex flex-col ml-4 md:ml-16 gap-14 mt-20">
@@ -27,7 +20,7 @@ const AdventureCollection = () => {
       <Tab.Group>
 
         <Tab.List className="flex p-1  space-x-1 min-w-[260px] w-1/4 md:w-1/3 bg-blue-900/20 rounded-xl">
-          {Object.keys(categories).map((category) => (
+          {Object.keys(collectionVal).map((category) => (
             <Tab
               key={category}
               className={({ selected }) =>
@@ -40,7 +33,7 @@ const AdventureCollection = () => {
                 )
               }
             >
-              {category}
+              {category.charAt(0).toUpperCase() + category.substr(1)}
             </Tab>
           ))}
         </Tab.List>
