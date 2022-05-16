@@ -4,7 +4,7 @@ import SearchBar from './SearchBar'
 
 const Hero = () => {
     return (
-        <div className='h-[450px] lg:h-[600px] x max-w-[80%] mx-auto mt-20 relative'>
+        <div className='h-[450px] lg:h-[600px] max-w-[80%] mx-auto mt-20 relative'>
             <Image src='/images/hero-image.jpg' className='rounded-3xl opacity-[0.5]' layout='fill' objectFit='cover' alt='hero-img' />
             <div className='absolute font-poppins flex flex-col space-y-6 md:space-y-8 w-[75%] md:w-[80%] h-full inset-x-4 lg:inset-y-24 mt-4  md:inset-x-20' >
                 <SearchBar />

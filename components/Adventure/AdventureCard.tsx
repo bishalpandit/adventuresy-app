@@ -1,8 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
 import Button from '../Button'
+import imgBaseURL from '../../utils/imgBaseURL'
 
-const imgBaseURL = 'https://cscentralindia100320012c.blob.core.windows.net/adventuresy/imgs'
 
 const AdventureCard = ({ adventure } : { adventure: any }) => {
     return (

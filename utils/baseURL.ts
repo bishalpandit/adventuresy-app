@@ -1,2 +1,2 @@
-const baseURL = 'https://api.adventuresy.in';
+const baseURL = 'http://api.adventuresy.in';
 export default baseURL;
