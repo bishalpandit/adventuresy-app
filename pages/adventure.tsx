@@ -1,9 +1,27 @@
+import axios from 'axios';
 import Image from 'next/image';
-import React from 'react'
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react'
 import NavBar from '../components/Layout/NavBar';
 import Rating from '../components/Rating';
+import baseURL from '../utils/baseURL';
 
 function Adventure() {
+  const [adventure, setAdventure] = useState({
+    adventure: {},
+    partners: [],
+    rating: {}
+  });
+  const router = useRouter();
+
+  useEffect(() => {
+    fetchAdventure();
+  }, []);
+
+  const fetchAdventure = async () => {
+    await axios.get(`${baseURL}/api/adventures/details/${router.query}`)
+  }
+
   return (
     <div>
       <NavBar />
