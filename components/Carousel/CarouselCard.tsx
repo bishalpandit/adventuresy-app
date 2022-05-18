@@ -1,6 +1,5 @@
 import React from 'react'
 import Image from 'next/image'
-import Button from '../Button'
 
 const CarouselCard = ({ imgURL } : { imgURL: any }) => {
     return (
@@ -11,11 +10,9 @@ const CarouselCard = ({ imgURL } : { imgURL: any }) => {
                 <p className='text-sm'>Snow</p>
                 <h2 className='text-sm sm:text-2xl font-medium'>Swim with most beautiful sea creatures.</h2>
                 <div className='sm:w-40 pt-6'>
-                    <Button 
-                    classProp='bg-white text-sm md:text-lg font-montserrat font-medium tracking-wide py-1 px-4 animate rounded-lg text-black'
-                    >
+                    <a className='bg-white text-sm md:text-lg font-montserrat font-medium tracking-wide py-1 px-4 animate rounded-lg text-black'>
                     Browse
-                    </Button> 
+                    </a> 
                 </div>
             </div>
 

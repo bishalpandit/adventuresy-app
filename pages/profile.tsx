@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Button from '../components/Button';
 import Image from 'next/image';
 import { useRecoilState } from 'recoil'
 import { authState } from '../store'
@@ -80,9 +79,9 @@ function Profile() {
                     </div>
 
                     <div className="bottom-section mt-4">
-                        <Button classProp='rounded-lg px-16 py-4 bg-sky-600 md:text-xl font-medium font-ubuntu'>
+                        <button className='rounded-lg px-16 py-4 bg-sky-600 md:text-xl font-medium font-ubuntu'>
                             Edit Profile
-                        </Button>
+                        </button>
                     </div>
                 </div>
             )

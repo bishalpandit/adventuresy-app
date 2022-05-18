@@ -18,7 +18,6 @@ function Adventure() {
     const [curPartner, setCurPartner] = useState<any>("");
     const router = useRouter();
     const [loading, setLoading] = useState(true);
-    console.log(curPartner);
 
     useEffect(() => {
         const calcMinPrice = (partners: []) => {
@@ -49,9 +48,7 @@ function Adventure() {
                 })
         };
 
-        if (router.query.id) {
-            fetchAdventure();
-        }
+        fetchAdventure();
     }, [router]);
 
     return (
