@@ -1,6 +1,5 @@
 import React from 'react'
 import Image from 'next/image'
-import Button from '../Button'
 import imgBaseURL from '../../utils/imgBaseURL'
 import Link from 'next/link'
 
