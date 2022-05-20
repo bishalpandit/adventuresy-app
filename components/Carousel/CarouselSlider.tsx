@@ -5,29 +5,35 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import "swiper/css/bundle"
 
-const imgURLs = [ 
+const CarouselContent = [ 
     {
-        URL: 'scuba-diving.jpg',
+        url: 'scuba-diving.jpg',
+        title: 'In the Water',
+        content: 'Swim with beautiful creatures',
         key: 0,
     },
     {
-        URL: 'snowboarding.jpg',
+        url: 'snowboarding.jpg',
+        title: 'On Land',
+        content: 'Ski on the Snowy Hills',
         key: 1,
     },
     {
-        URL: 'skydiving.webp',
+        url: 'skydiving.webp',
+        title: 'In the Air',
+        content: 'Sky dive over Palm Island',
         key: 2,
     },
     {
-        URL: 'kayak.jpg',
+        url: 'kayak.jpg',
+        title: 'In the Water',
+        content: 'Go kayaking in the water',
         key: 3,
     },
     {
-        URL: 'camping.jpg',
-        key: 4,
-    },
-    {
-        URL: 'paragliding.jpg',
+        url: 'paragliding.jpg',
+        title: 'In the Air',
+        content: 'Experience thrill while paragliding',
         key: 5,
     },
 ]
@@ -70,9 +76,9 @@ const CarouselSlider = () => {
             "slideShadows": true}}
         >
             {
-                imgURLs.map( cardImg => (
-                    <SwiperSlide key={cardImg.key}>
-                        <CarouselCard imgURL={cardImg.URL} />
+                CarouselContent.map( content => (
+                    <SwiperSlide key={content.key}>
+                        <CarouselCard content={content} />
                     </SwiperSlide>
                 ))
             }

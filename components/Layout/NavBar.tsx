@@ -11,7 +11,7 @@ const NavBar = () => {
                 <Image src='/logo.png' layout='fill' objectFit="contain" alt='brand-logo' />
             </div>
 
-            <div className='nav-items py-2 text-white space-x-14 items-center justify-center font-[490] font-montserrat tracking-wider mt-6 md:flex hidden'>
+            <div className='nav-items py-2 text-white space-x-14 items-center justify-center font-medium font-montserrat tracking-wider mt-6 md:flex hidden'>
                 <a>Adventures</a>
                 <a>Partners</a>
                 <a>Contact</a>

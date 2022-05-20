@@ -1,7 +1,7 @@
 import { Menu, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { LogoutIcon, UserIcon } from '@heroicons/react/solid'
-import Image from 'next/image'
+import Avatar, { genConfig } from 'react-nice-avatar'
 import Link from 'next/link'
 import { useSetRecoilState } from 'recoil'
 import { authState } from '../../store'
@@ -13,6 +13,7 @@ export default function Dropdown() {
   const setAuth = useSetRecoilState(authState);
 
   const router = useRouter();
+  const config = genConfig();
 
   const logoutHandler = async () => {
 
@@ -39,7 +40,8 @@ export default function Dropdown() {
       <Menu as="div" className="z-20 relative inline-block text-left">
         <div>
           <Menu.Button className="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-            <Image src='/images/avatar.svg' height={50} width={50} alt='avatar' />
+            {/* <Image src='/images/avatar.svg' height={50} width={50} alt='avatar' /> */}
+            <Avatar className='w-[50px] h-[50px]' {...config} />
           </Menu.Button>
         </div>
         <Transition
