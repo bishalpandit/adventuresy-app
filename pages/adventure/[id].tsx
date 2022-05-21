@@ -14,6 +14,12 @@ import { bookingState, IBooking } from '../../store/index'
 import { useRecoilState } from 'recoil'
 import DurationList from '../../components/Dropdown/DurationList';
 import PersonList from '../../components/Dropdown/PersonList';
+import dynamic from 'next/dynamic';
+import { LatLngExpression } from 'leaflet';
+const AdventureMap = dynamic(
+    () => import('../../components/Maps/AdventureMap'),
+    { ssr: false }
+  )
 
 
 function Adventure() {
@@ -26,6 +32,7 @@ function Adventure() {
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [booking, setBooking] = useRecoilState<any>(bookingState);
+    console.log(adventure);
 
     useEffect(() => {
         const calcMinPrice = (partners: []) => {
@@ -76,7 +83,7 @@ function Adventure() {
         loading ?
             (
                 <div className={'flex flex-col h-screen justify-center items-center '} >
-                    <CircularProgress thickness={4.5} className='!text-white' size={60} />
+                    <CircularProgress thickness={4} className='!text-white' size={60} />
                 </div>
             ) :
             (
@@ -86,10 +93,17 @@ function Adventure() {
                         <div className="md:basis-3/5 flex flex-col space-y-6 items-center md:items-start">
                             <h2 className="self-start font-montserrat font-semibold w-[60%] text-3xl tracking-wider leading-normal">{adventure.adventure.title}</h2>
                             <div className="flex space-x-8">
-                                <Rating />
+                                <Rating rating={adventure.rating} />
                                 <div>
-                                    <span className="bg-white text-black/90 text-sm font-medium mr-2 px-3 py-1 rounded-full">Water</span>
-                                    <span className="bg-white text-black/90 text-sm font-medium mr-2 px-3 py-1 rounded-full">Kayak</span>
+                                    {
+                                        adventure.adventure.tags ?
+                                            adventure.adventure.tags
+                                                .map((tag: string, idx: number) =>
+                                                    <span key={idx} className="bg-white text-black/90 text-sm font-medium mr-2 px-3 py-1 rounded-full">{tag.charAt(0).toUpperCase() + tag.substr(1)}</span>
+                                                )
+                                            :
+                                            null
+                                    }
                                 </div>
                             </div>
                             <div className="h-56 sm:h-72 md:h-80 w-[96%] md:w-[80%] relative">
@@ -122,16 +136,16 @@ function Adventure() {
                         </div>
                     </div>
 
-                    <div id="details-and-booking" className="flex flex-col items-center md:flex-row md:justify-around mt-10 w-[90%] mx-auto">
-                        <div className="md:basis-3/5 flex flex-col space-y-6 items-center md:items-start">
+                    <div id="details-and-booking" className="flex flex-col items-center md:flex-row md:justify-around mt-16 w-[90%] mx-auto">
+                        <div className="md:basis-3/5 flex flex-col space-y-6 items-center md:items-start ">
                             <h2 className="self-start font-montserrat font-semibold w-[60%] text-3xl tracking-wider leading-normal">Description</h2>
                             <p className='font-roboto text-sm w-[95%] text-justify'>{adventure.adventure.summary}</p>
                             <h2 className="self-start font-montserrat font-semibold w-[60%] text-2xl tracking-wider leading-normal">Partner Facilities</h2>
-                            <div className='flex gap-3 flex-wrap '>
-                                <span className="bg-white text-black/90 text- font-medium mr-2 px-4 py-2 rounded-lg">Transportation</span>
-                                <span className="bg-white text-black/90 text- font-medium mr-2 px-4 py-2 rounded-lg">Insurance</span>
-                                <span className="bg-white text-black/90 text- font-medium mr-2 px-4 py-2 rounded-lg">Food</span>
-                                <span className="bg-white text-black/90 text- font-medium mr-2 px-4 py-2 rounded-lg">Lodging</span>
+                            <div className='flex gap-4 flex-wrap '>
+                                <span className="bg-white text-black/90 text-sm font-medium mr-2 px-4 py-2 rounded-lg">Transportation</span>
+                                <span className="bg-white text-black/90 text-sm font-medium mr-2 px-4 py-2 rounded-lg">Insurance</span>
+                                <span className="bg-white text-black/90 text-sm font-medium mr-2 px-4 py-2 rounded-lg">Food</span>
+                                <span className="bg-white text-black/90 text-sm font-medium mr-2 px-4 py-2 rounded-lg">Lodging</span>
                             </div>
                         </div>
                         <div className="md:basis-2/5 w-[96%]">
@@ -150,7 +164,7 @@ function Adventure() {
                                         includeDates={(!booking.hasDates) ? [] : booking.partner.avail_dates.map((date: any) => new Date(date))}
                                         disabled={!booking.hasDates}
                                         withPortal
-                                        className={`${booking.hasDates ? 'bg-black/70' : 'bg-gray-800'} rounded-xl`}
+                                        className={`${booking.hasDates ? 'bg-black/70' : 'bg-gray-800'} !w-[80%] rounded-xl`}
                                         calendarClassName='!bg-gray-900 !text-green-500'
                                         placeholderText='No Dates Available'
                                     />
@@ -168,8 +182,9 @@ function Adventure() {
                         </div>
                     </div>
 
-                    <div id="location-map" className="flex flex-col items-center md:flex-row md:justify-around mt-20 w-[90%] mx-auto">
-
+                    <div id="location-map" className="flex flex-col space-y-8 mb-12 items-center justify-start w-[90%] mx-auto">
+                        <h2 className="self-start font-montserrat font-semibold w-[60%] text-3xl tracking-wider leading-normal mt-6 md:mt-0">Location on Map</h2>
+                        <AdventureMap location={Object.values(adventure.adventure.location)} address={adventure.adventure.address}/>
                     </div>
                 </div >
             )
