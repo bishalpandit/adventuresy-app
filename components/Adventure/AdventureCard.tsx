@@ -15,7 +15,7 @@ const AdventureCard = ({ adventure }: { adventure: any }) => {
                 <p className='text-xs font-extralight'>{adventure.summary.substr(0, 40) + "..."}</p>
             </div>
             <div className='absolute bottom-8 right-6 '>
-                <Link scroll={true} passHref href={`/adventure/${adventure.id}`}>
+                <Link scroll={false} passHref href={`/adventure/${adventure.id}`}>
                     <a className='rounded-full border px-5 py-[6px] bg-black/60'>
                         More
                     </a>

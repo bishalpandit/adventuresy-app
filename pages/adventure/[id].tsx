@@ -1,12 +1,20 @@
 import { CircularProgress } from '@mui/material';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
+import PartnersList from '../../components/Dropdown/PartnersList';
 import NavBar from '../../components/Layout/NavBar';
 import Rating from '../../components/Rating';
 import baseURL from '../../utils/baseURL';
 import imgBaseURL from '../../utils/imgBaseURL';
+import { bookingState, IBooking } from '../../store/index'
+import { useRecoilState } from 'recoil'
+import DurationList from '../../components/Dropdown/DurationList';
+import PersonList from '../../components/Dropdown/PersonList';
+
 
 function Adventure() {
     const [adventure, setAdventure] = useState<any>({
@@ -15,9 +23,9 @@ function Adventure() {
         rating: {},
         minPrice: 0
     });
-    const [curPartner, setCurPartner] = useState<any>("");
     const router = useRouter();
     const [loading, setLoading] = useState(true);
+    const [booking, setBooking] = useRecoilState<any>(bookingState);
 
     useEffect(() => {
         const calcMinPrice = (partners: []) => {
@@ -36,10 +44,19 @@ function Adventure() {
             await axios
                 .get(`${baseURL}/api/adventures/details/${router.query.id}`)
                 .then((res) => {
-                    setCurPartner(res.data.data.partners[0].partner_id);
+                    const partner = res.data.data.partners[0];
                     setAdventure({
                         ...res.data.data,
                         minPrice: calcMinPrice(res.data.data.partners)
+                    });
+                    setBooking((booking: any) => {
+                        return {
+                            ...booking,
+                            partner: partner,
+                            startDate: (partner.avail_dates === null) ? null : new Date(partner.avail_dates[0]),
+                            price: partner.price,
+                            hasDates: (partner.avail_dates === null) ? false : true,
+                        }
                     });
                     setLoading(false);
                 })
@@ -47,9 +64,12 @@ function Adventure() {
                     console.log(err);
                 })
         };
-
-        fetchAdventure();
+        if (router.query.id)
+            fetchAdventure();
     }, [router]);
+
+    console.log(booking);
+
 
     return (
 
@@ -62,14 +82,14 @@ function Adventure() {
             (
                 <div>
                     <NavBar />
-                    <div id="top" className="flex flex-col items-center md:flex-row md:justify-around mt-20 w-[90%] mx-auto">
+                    <div id="title-and-pricing" className="flex flex-col space-y-6 items-center md:flex-row md:justify-around mt-20 w-[90%] mx-auto">
                         <div className="md:basis-3/5 flex flex-col space-y-6 items-center md:items-start">
                             <h2 className="self-start font-montserrat font-semibold w-[60%] text-3xl tracking-wider leading-normal">{adventure.adventure.title}</h2>
                             <div className="flex space-x-8">
                                 <Rating />
                                 <div>
-                                    <span className="bg-white text-black/90 text-sm font-medium mr-2 px-3 py-1 rounded-full dark:bg-gray-700 dark:text-gray-300">Water</span>
-                                    <span className="bg-white text-black/90 text-sm font-medium mr-2 px-3 py-1 rounded-full dark:bg-gray-700 dark:text-gray-300">Kayak</span>
+                                    <span className="bg-white text-black/90 text-sm font-medium mr-2 px-3 py-1 rounded-full">Water</span>
+                                    <span className="bg-white text-black/90 text-sm font-medium mr-2 px-3 py-1 rounded-full">Kayak</span>
                                 </div>
                             </div>
                             <div className="h-56 sm:h-72 md:h-80 w-[96%] md:w-[80%] relative">
@@ -85,27 +105,71 @@ function Adventure() {
                                 <div id="partners" className='flex items-center space-x-3'>
                                     <div className="flex -space-x-6">
                                         <Image className="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800" src="/images/partners/braver.svg" height={40} width={40} alt="avatar" />
-                                        <Image className="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800" src="/images/partners/braver.svg" height={40} width={40} alt="avatar" />
+                                        <Image className="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800" src="/images/partners/alta-advent.svg" height={40} width={40} alt="avatar" />
                                         <Image className="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800" src="/images/partners/braver.svg" height={40} width={40} alt="avatar" />
                                     </div>
-                                    <p className="text-xs font-medium font-montserrat">{adventure.partners.length - 1}+ Offering Partners</p>
+                                    <p className="text-sm font-medium font-montserrat">{adventure.partners.length} Offering Partners</p>
                                 </div>
                                 <div id="select">
                                     <h2 className="font-poppins font-medium text-lg mb-2">Select Offering Partner</h2>
-                                    <select onChange={(e) => setCurPartner(e.target.value)} id="partners" className="bg-[#222222] border border-gray-900 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[70%] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        {
-                                            adventure.partners.map((partner: any) => (
-                                                <option key={partner.partner_id} value={partner.partner_id}>{partner.pname}</option>
-                                            ))
-                                        }
-                                    </select>
+                                    <PartnersList partners={adventure.partners} />
                                 </div>
                                 <div id="current-price" className="flex items-center justify-around">
                                     <h4 className="font-montserrat font-medium text-lg">Current Price</h4>
-                                    <h2 className="text-sky-400 text-2xl font-bold">Rs {(adventure.partners.find((val: any) => val.partner_id === curPartner)).price}</h2>
+                                    <h2 className="text-sky-400 text-2xl tracking-wider font-bold">Rs {booking.price}</h2>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div id="details-and-booking" className="flex flex-col items-center md:flex-row md:justify-around mt-10 w-[90%] mx-auto">
+                        <div className="md:basis-3/5 flex flex-col space-y-6 items-center md:items-start">
+                            <h2 className="self-start font-montserrat font-semibold w-[60%] text-3xl tracking-wider leading-normal">Description</h2>
+                            <p className='font-roboto text-sm w-[95%] text-justify'>{adventure.adventure.summary}</p>
+                            <h2 className="self-start font-montserrat font-semibold w-[60%] text-2xl tracking-wider leading-normal">Partner Facilities</h2>
+                            <div className='flex gap-3 flex-wrap '>
+                                <span className="bg-white text-black/90 text- font-medium mr-2 px-4 py-2 rounded-lg">Transportation</span>
+                                <span className="bg-white text-black/90 text- font-medium mr-2 px-4 py-2 rounded-lg">Insurance</span>
+                                <span className="bg-white text-black/90 text- font-medium mr-2 px-4 py-2 rounded-lg">Food</span>
+                                <span className="bg-white text-black/90 text- font-medium mr-2 px-4 py-2 rounded-lg">Lodging</span>
+                            </div>
+                        </div>
+                        <div className="md:basis-2/5 w-[96%]">
+                            <div className='p-6 flex flex-col space-y-8 bg-dark-800 rounded-2xl max-w-[100%] md:max-w-[75%]  mt-8 mx-auto'>
+                                <div id="select-start-date">
+                                    <h2 className="font-poppins font-medium text-lg mb-2">Select From Available Dates</h2>
+                                    <DatePicker
+                                        selected={booking.startDate}
+                                        onChange={(date: Date) =>
+                                            setBooking((booking: IBooking) => {
+                                                return {
+                                                    ...booking,
+                                                    startDate: date
+                                                };
+                                            })}
+                                        includeDates={(!booking.hasDates) ? [] : booking.partner.avail_dates.map((date: any) => new Date(date))}
+                                        disabled={!booking.hasDates}
+                                        withPortal
+                                        className={`${booking.hasDates ? 'bg-black/70' : 'bg-gray-800'} rounded-xl`}
+                                        calendarClassName='!bg-gray-900 !text-green-500'
+                                        placeholderText='No Dates Available'
+                                    />
+                                </div>
+                                <div id="select-duration">
+                                    <h2 className=" font-poppins font-medium text-lg">Select Duration</h2>
+                                    <DurationList />
+                                </div>
+                                <div id="select-persons">
+                                    <h2 className=" font-poppins font-medium text-lg">Select Persons</h2>
+                                    <PersonList />
+                                </div>
+                                <button disabled={!booking.hasDates} className={`${booking.hasDates ? 'bg-green-400' : 'bg-green-200'} text-black/90 text- font-medium px-4 py-2 rounded-lg animate`}>Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="location-map" className="flex flex-col items-center md:flex-row md:justify-around mt-20 w-[90%] mx-auto">
+
                     </div>
                 </div >
             )
