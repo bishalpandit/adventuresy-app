@@ -3,6 +3,7 @@ import Image from 'next/image'
 import CircularProgress from '@mui/material/CircularProgress';
 import baseURL from '../utils/baseURL';
 import dynamic from 'next/dynamic'
+import RegisterModal from '../components/Modal/Register';
 const LoginModal = dynamic(
   () => import('../components/Modal/Login'),
   { ssr: false }
@@ -11,7 +12,8 @@ const LoginModal = dynamic(
 function Splash() {
 
     const [isLoading, setIsLoading] = useState(true);
-    let [isOpen, setIsOpen] = useState(false);
+    const [registerOpen, setRegisterOpen] = useState(false);
+    const [loginOpen, setLoginOpen] = useState(false);
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -46,11 +48,12 @@ function Splash() {
 
                 <div className='mid-content space-y-8 h-screen flex flex-col justify-center items-center z-5 px-6 md:px-1'>
                     <h1 className='font-poppins font-extrabold md:font-bold text-6xl hidden md:block leading-relaxed '>Your World of Adventures</h1>
-                    <h1 className='font-poppins font-extrabold md:font-bold text-5xl block md:hidden leading-relaxed '>Your World <br /> of Adventures</h1>
+                    <h1 className='font-poppins font-extrabold md:font-bold text-4xl block md:hidden leading-relaxed '>Your World <br /> of Adventures</h1>
                     <p className='font-poppins px-2 md:px-0 md:text-md font-light md:font-medium text-justify'>Explore adventures, attend local events, go on animal safaris. Dive in.</p>
-                    <button onClick={() => setIsOpen((prev) => !prev)} className='font-poppins rounded-md px-3 py-4 bg-white font-medium tracking-widest text-black w-40 md:w-60'>Login</button>
+                    <button onClick={() => setLoginOpen((prev) => !prev)} className='font-poppins rounded-md px-3 py-4 bg-white font-medium tracking-widest text-black w-40 md:w-60'>Login</button>
                 </div>
-                <LoginModal open={[isOpen, setIsOpen]} />
+                <LoginModal setRegisterOpen={setRegisterOpen} open={[loginOpen, setLoginOpen]} />
+                <RegisterModal setLoginOpen={setLoginOpen} open={[registerOpen, setRegisterOpen]} />
             </div>
             {
                 isLoading &&

@@ -2,17 +2,14 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { useSetRecoilState } from 'recoil'
-import { authState } from '../../store'
 import Loader from '../Loader';
 import { useRouter } from 'next/router';
 import baseURL from '../../utils/baseURL';
 import GoogleButton from 'react-google-button';
 
-export default function LoginModal({ open }: any) {
+export default function LoginModal({ open, setRegisterOpen }: any) {
     const [isOpen, setIsOpen] = open;
     const [loading, setLoading] = useState(false);
-    const setAuth = useSetRecoilState(authState);
 
     const {
         register,
@@ -45,7 +42,6 @@ export default function LoginModal({ open }: any) {
             }, { withCredentials: true })
             .then(res => {
                 router.push('/', undefined, { shallow: true });
-                setLoading(false);
             })
             .catch(err => {
                 console.log(err);
@@ -116,11 +112,11 @@ export default function LoginModal({ open }: any) {
                                                         <input {...register("password")} type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" required />
                                                     </div>
                                                     <button type="submit" className="w-[60%] mx-auto mb-4 text-white bg-sky-600 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Login</button>
-                                                    <GoogleButton className='mx-auto' onClick={handleGoogleLogin} />
-                                                    <div className="text-sm font-medium text-gray-500">
-                                                        Not registered? <a href="#" className="text-sky-700 hover:underline ">Create account</a>
-                                                    </div>
+                                                    <GoogleButton label="Continue with Google" className='mx-auto' onClick={handleGoogleLogin} />
                                                 </form>
+                                                <div className="text-sm font-medium text-gray-500">
+                                                    Not registered? <button onClick={() => { setRegisterOpen(true); setIsOpen(false); }} className="text-sky-700 hover:underline ">Create account</button>
+                                                </div>
                                             </div>
                                         </div>
 

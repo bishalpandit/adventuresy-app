@@ -2,17 +2,14 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { useSetRecoilState } from 'recoil'
-import { authState } from '../../store'
 import Loader from '../Loader';
 import { useRouter } from 'next/router';
 import baseURL from '../../utils/baseURL';
 import GoogleButton from 'react-google-button';
 
-export default function RegisterModal({ open }: any) {
+export default function RegisterModal({ open, setLoginOpen }: any) {
   const [isOpen, setIsOpen] = open;
   const [loading, setLoading] = useState(false);
-  const setAuth = useSetRecoilState(authState);
 
   const {
     register,
@@ -38,12 +35,12 @@ export default function RegisterModal({ open }: any) {
 
   const handleRegister = async (data: any) => {
     setLoading(true);
+    
     await axios
       .post(`${baseURL}/api/auth/register`, {
         first_name: data.first_name,
         last_name: data.last_name,
         email: data.email,
-        mobile: data.mobile,
         password: data.password
       }, { withCredentials: true })
       .then(res => {
@@ -123,23 +120,15 @@ export default function RegisterModal({ open }: any) {
                             <input {...register("last_name")} type="text" name="last_name" id="last_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" placeholder="Doe" required />
                           </div>
                           <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 ">Your email</label>
-                            <input {...register("mobile")} type="text" name="mobile" id="mobile" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" placeholder="If you wanna add..." />
-                          </div>
-                          <div>
                             <label className="block mb-2 text-sm font-medium text-gray-900 ">Your password</label>
                             <input {...register("password")} type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" required />
                           </div>
-                          <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 ">Your password</label>
-                            <input {...register("password")} type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5" required />
-                          </div>
-                          <button type="submit" className="w-[60%] mx-auto mb-4 text-white bg-sky-600 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Login</button>
-                          <GoogleButton className='mx-auto' onClick={handleGoogleLogin} />
-                          <div className="text-sm font-medium text-gray-500">
-                            Not registered? <a href="#" className="text-sky-700 hover:underline ">Create account</a>
-                          </div>
+                          <button type="submit" className="w-[60%] mx-auto mb-4 text-white bg-sky-600 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Register</button>
+                          <GoogleButton label="Continue with Google" className='mx-auto' onClick={handleGoogleLogin} />
                         </form>
+                        <div className="text-sm font-medium text-gray-500">
+                            Already registered? <button onClick={() => { setLoginOpen(true); setIsOpen(false); }} className="text-sky-700 hover:underline ">Login</button>
+                          </div>
                       </div>
                     </div>
 
