@@ -7,7 +7,7 @@ function ReviewCard() {
         <div id="header">
             <Avatar src='/images/avatar.svg' />
             <div>
-
+              <p>Jane</p>
             </div>
             <div>
 
