@@ -15,11 +15,11 @@ import { useRecoilState } from 'recoil'
 import DurationList from '../../components/Dropdown/DurationList';
 import PersonList from '../../components/Dropdown/PersonList';
 import dynamic from 'next/dynamic';
-import { LatLngExpression } from 'leaflet';
+import { useAuth } from '../../hooks/useAuth';
 const AdventureMap = dynamic(
     () => import('../../components/Maps/AdventureMap'),
     { ssr: false }
-  )
+)
 
 
 function Adventure() {
@@ -32,7 +32,7 @@ function Adventure() {
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [booking, setBooking] = useRecoilState<any>(bookingState);
-    console.log(adventure);
+    const { checkAuth } = useAuth();
 
     useEffect(() => {
         const calcMinPrice = (partners: []) => {
@@ -49,7 +49,9 @@ function Adventure() {
 
         const fetchAdventure = async () => {
             await axios
-                .get(`${baseURL}/api/adventures/details/${router.query.id}`)
+                .get(`${baseURL}/api/adventures/details/${router.query.id}`, {
+                    withCredentials: true
+                })
                 .then((res) => {
                     const partner = res.data.data.partners[0];
                     setAdventure({
@@ -71,9 +73,12 @@ function Adventure() {
                     console.log(err);
                 })
         };
-        if (router.query.id)
-            fetchAdventure();
-    }, [router]);
+        
+        (async () => {
+            await checkAuth();
+            await fetchAdventure();
+        })();
+    }, []);
 
     console.log(booking);
 
@@ -184,7 +189,7 @@ function Adventure() {
 
                     <div id="location-map" className="flex flex-col space-y-8 mb-12 items-center justify-start w-[90%] mx-auto">
                         <h2 className="self-start font-montserrat font-semibold w-[60%] text-3xl tracking-wider leading-normal mt-6 md:mt-0">Location on Map</h2>
-                        <AdventureMap location={Object.values(adventure.adventure.location)} address={adventure.adventure.address}/>
+                        <AdventureMap location={Object.values(adventure.adventure.location)} address={adventure.adventure.address} />
                     </div>
                 </div >
             )

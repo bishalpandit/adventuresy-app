@@ -12,41 +12,17 @@ import Hero from '../components/Hero/Hero';
 import NavBar from '../components/Layout/NavBar';
 import Partners from '../components/Partners/Partners';
 import { CircularProgress } from '@mui/material';
+import { useAuth } from '../hooks/useAuth';
 
 
 let endpoint = `${baseURL}/api/adventures?collections=trending&collections=popular&collections=recent&limit=5`;
 
 const Home = () => {
   const setCollection = useSetRecoilState(collection);
-  const setAuth = useSetRecoilState(authState);
   const [loading, setLoading] = useState(true);
-
-  const router = useRouter();
+  const { checkAuth } = useAuth();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      await axios
-        .get(`${baseURL}/api/auth/user`, { withCredentials: true })
-        .then(res => {
-          const auth = res.data;
-          console.log(auth);
-
-          if (auth.status == true) {
-            setAuth({
-              isAuthenticated: true,
-              authUser: auth.user
-            })
-            fetchData();
-          } else {
-            setAuth({
-              isAuthenticated: false,
-              authUser: null
-            });
-            router.push('/splash', undefined, { shallow: true });
-          }
-        })
-    }
-
     const fetchData = async () => {
       await axios.get(endpoint, { withCredentials: true })
         .then((res) => {
@@ -56,9 +32,12 @@ const Home = () => {
         })
     }
 
-    checkAuth();
+    (async () => {
+      await checkAuth();
+      await fetchData();
+    })();
 
-  }, [router, setAuth, setCollection]);
+  }, []);
 
 
 

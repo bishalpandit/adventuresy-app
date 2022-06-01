@@ -39,7 +39,7 @@ const AdventureCollection = () => {
         </Tab.List>
 
         <Tab.Panels className="mt-4">
-          {Object.values(collectionVal).map((collection, idx) => (
+          {Object?.values(collectionVal).map((collection, idx) => (
 
             <Tab.Panel
               key={idx}

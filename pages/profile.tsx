@@ -1,55 +1,36 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
-import { useRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import { authState } from '../store'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@mui/material'
 import axios from 'axios'
 import baseURL from '../utils/baseURL';
+import { useAuth } from '../hooks/useAuth';
 
 function Profile() {
-    const [auth, setAuth] = useRecoilState(authState);
-    const router = useRouter();
+    const { authUser } = useRecoilValue(authState);
     const [loading, setLoading] = useState(true);
-    const { authUser, isAuthenticated } = auth as any;
-    let first_name = '', last_name = '', email_id = '', mobile = ''; 
-
-    first_name = authUser?.first_name;
-    last_name = authUser?.last_name;
-    email_id = authUser?.email_id;
-    mobile = authUser?.mobile;
+    const [edit, setEdit] = useState(false);
+    const { first_name, last_name, email_id } = authUser as any;
+    const { checkAuth } = useAuth();
 
     useEffect(() => {
-        const checkAuth = async () => {
-            await axios
-                .get(`${baseURL}/api/auth/user`, { withCredentials: true })
-                .then(res => {
-                    const auth = res.data;
-
-                    if (auth.status) {
-                        setAuth({
-                            isAuthenticated: true,
-                            authUser: auth.user
-                        })
-                        setLoading(false);
-                    } else {
-                        setAuth({
-                            isAuthenticated: false,
-                            authUser: null
-                        });
-                        router.push('/splash', undefined, { shallow: true });
-                    }
-                })
-        }
-
-        checkAuth();
+        (async () => {
+            await checkAuth();
+            setLoading(false);
+        })();
     }, []);
+
+    const handleSave = () => {
+
+    }
 
     return (
         loading ?
             (
                 <div className={'flex flex-col h-screen justify-center items-center '}>
-                    <CircularProgress thickness={4.5} className='!text-white' size={60} />
+                    <CircularProgress thickness={4} className='!text-white' size={60} />
                 </div>
             ) :
             (
@@ -58,29 +39,28 @@ function Profile() {
 
                     <div className="mt-10 top-section flex flex-col items-center space-y-4">
                         <Image src='/images/avatar.svg' height={100} width={100} alt='avatar' />
-                        <h3 className="text-2xl font-bold">{`${first_name} ${last_name}`}</h3>
+                        <input className="text-2xl font-bold bg-black/80 rounded-lg border-0 w-[65%]" readOnly={!edit} type="text" defaultValue={`${first_name} ${last_name}`}/>
                     </div>
 
                     <div className="mid-section w-full mt-4">
                         <div className="bg-dark-800 flex flex-col space-y-2 w-[75%] md:w-[40%] min-h-14 p-3 rounded-md mx-auto ">
                             <label className="text font-medium text-sky-500">username</label>
-                            <p>{'@' + email_id?.substr(0, email_id.indexOf('@'))}</p>
+                            <input className='bg-black/80 border-0 rounded-md w-[80%]' readOnly={!edit} type="text" value={'@' + email_id.substr(0, email_id.indexOf('@'))} />
                         </div>
 
                         <div className="mt-6 bg-dark-800 flex flex-col space-y-2 w-[75%] md:w-[40%] min-h-14 p-3 rounded-md mx-auto ">
                             <label className="text font-medium text-sky-500">email</label>
-                            <p>{email_id}</p>
-                        </div>
-
-                        <div className="mt-6 bg-dark-800 flex flex-col space-y-2 w-[75%] md:w-[40%] min-h-14 p-3 rounded-md mx-auto ">
-                            <label className="text font-medium text-sky-500">mobile</label>
-                            <p>{mobile}</p>
+                            <input className='bg-black/80 border-0 rounded-md w-[80%]' readOnly={!edit} type="email" value={email_id} />
                         </div>
                     </div>
 
                     <div className="bottom-section mt-4">
-                        <button className='rounded-lg px-16 py-4 bg-sky-600 md:text-xl font-medium font-ubuntu'>
-                            Edit Profile
+                        <button onClick={() => setEdit((prev) => !prev)} className='rounded-lg px-16 py-4 bg-sky-600 md:text-xl font-medium font-ubuntu'>
+                            {
+                                edit ?
+                                <p onClick={handleSave}>Save</p> :
+                                <p>Edit</p>
+                            }
                         </button>
                     </div>
                 </div>
