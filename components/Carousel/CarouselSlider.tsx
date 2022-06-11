@@ -1,6 +1,6 @@
 import React from 'react'
 import CarouselCard from './CarouselCard'
-import { Navigation, Pagination, Scrollbar, A11y, FreeMode, EffectCoverflow } from 'swiper';
+import { Navigation, Pagination, Scrollbar, A11y, FreeMode, EffectCoverflow, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import "swiper/css/bundle"
@@ -43,7 +43,7 @@ const CarouselSlider = () => {
         <div className='mt-20 w-[90%] md:w-4/5 mx-auto'>
             <h2 className='mb-4 title'>Discover</h2>
             <Swiper
-            modules={[Navigation, Pagination, Scrollbar, A11y, EffectCoverflow, FreeMode]}
+            modules={[Navigation, Pagination, Scrollbar, A11y, EffectCoverflow, FreeMode, Autoplay]}
             breakpoints={{
                 "320": {
                     "slidesPerView": 1,
@@ -66,7 +66,10 @@ const CarouselSlider = () => {
                     "spaceBetween": 60
                 }
             }}
-            
+            autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+              }}
             freeMode={true}
             effect={'coverflow'}
             coverflowEffect={{"rotate": 30,
