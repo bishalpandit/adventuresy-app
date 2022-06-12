@@ -31,11 +31,9 @@ const Home = () => {
           setLoading(false);
         })
     }
-
-    (async () => {
-      await checkAuth();
-      await fetchData();
-    })();
+    
+    checkAuth();
+    fetchData();
 
   }, []);
 
