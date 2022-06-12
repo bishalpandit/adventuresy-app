@@ -8,8 +8,8 @@ export function useAuth() {
     const setAuth = useSetRecoilState(authState);
     const router = useRouter();
 
-    const checkAuth = async () => {
-        await axios
+    const checkAuth = () => {
+        axios
             .get(`${baseURL}/api/auth/user`, { withCredentials: true })
             .then(res => {
                 const auth = res.data;
