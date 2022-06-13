@@ -32,7 +32,6 @@ function Adventure() {
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [booking, setBooking] = useRecoilState<any>(bookingState);
-    const { checkAuth } = useAuth();
 
     useEffect(() => {
         const calcMinPrice = (partners: []) => {
@@ -75,12 +74,10 @@ function Adventure() {
         };
         
         (async () => {
-            await checkAuth();
             await fetchAdventure();
         })();
     }, []);
 
-    console.log(booking);
 
 
     return (
@@ -99,7 +96,7 @@ function Adventure() {
                             <h2 className="self-start font-montserrat font-semibold w-[60%] text-3xl tracking-wider leading-normal">{adventure.adventure.title}</h2>
                             <div className="flex space-x-8">
                                 <Rating rating={adventure.rating} />
-                                <div>
+                                <div className='flex flex-wrap gap-2'>
                                     {
                                         adventure.adventure.tags ?
                                             adventure.adventure.tags

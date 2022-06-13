@@ -1,71 +1,61 @@
-import { useEffect, useState } from 'react';
-import Head from 'next/head';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
+import CircularProgress from '@mui/material/CircularProgress';
 import baseURL from '../utils/baseURL';
-import { useSetRecoilState } from 'recoil';
-import { collection, authState } from '../store';
-import { useRouter } from 'next/router';
-import AdventureCollection from '../components/Adventure/AdventureCollection';
-import CarouselSlider from '../components/Carousel/CarouselSlider';
-import Category from '../components/Category/Category';
-import Hero from '../components/Hero/Hero';
-import NavBar from '../components/Layout/NavBar';
-import Partners from '../components/Partners/Partners';
-import { CircularProgress } from '@mui/material';
-import { useAuth } from '../hooks/useAuth';
 
+import { useRouter } from 'next/router'
 
-let endpoint = `${baseURL}/api/adventures?collections=trending&collections=popular&collections=recent&limit=5`;
+function Splash() {
+    const [isLoading, setIsLoading] = useState(true);
+    const router = useRouter();
 
-const Home = () => {
-  const setCollection = useSetRecoilState(collection);
-  const [loading, setLoading] = useState(true);
-  const { checkAuth } = useAuth();
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            isLoading && window.scrollTo(0, 0);
+        }, 800);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await axios.get(endpoint, { withCredentials: true })
-        .then((res) => {
-          const collections = res.data.data;
-          setCollection(collections);
-          setLoading(false);
-        })
-    }
+        return () => clearInterval(intervalId);
+    }, [isLoading]);
 
-    (async () => {
-      await checkAuth();
-      await fetchData();
-    })();
+    return (
+        <div >
+            <div className={`relative items-center justify-center h-screen overflow-hidden ${isLoading ? 'h-1' : 'flex'}`}>
+                <video
+                    autoPlay
+                    loop
+                    muted
+                    className="absolute -z-10 w-auto min-w-full min-h-full max-w-none opacity-30"
+                    onPlay={() => {
+                        setIsLoading(false)
+                    }}
+                >
+                    <source
+                        src={`${baseURL}/api/stream/splash`}
+                        type="video/webm"
+                    />
+                    Your browser does not support the video tag.
+                </video>
 
-  }, []);
+                <div className='absolute top-4 md:top-8 left-2 md:left-6'>
+                    <Image src='/logo.png' height={40} width={144} alt='brand-logo' />
+                </div>
 
-
-
-  return (
-    <div >
-      <Head>
-        <title>Adventuresy</title>
-        <meta name="description" content="Go on thrilling adventure activites and sports" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      {
-        loading ?
-          <div className={'flex flex-col h-screen justify-center items-center '}>
-            <CircularProgress thickness={4.5} className='!text-white' size={60} />
-          </div> :
-          (
-            <div>
-              <NavBar />
-              <Hero />
-              <Category />
-              <CarouselSlider />
-              <AdventureCollection />
-              <Partners />
+                <div className='mid-content space-y-8 h-screen flex flex-col justify-center items-center z-5 px-6 md:px-1'>
+                    <h1 className='font-poppins font-extrabold md:font-bold text-6xl hidden md:block leading-relaxed '>Your World of Adventures</h1>
+                    <h1 className='font-poppins font-extrabold md:font-bold text-4xl block md:hidden leading-relaxed '>Your World <br /> of Adventures</h1>
+                    <p className='font-poppins px-2 md:px-0 md:text-md font-light md:font-medium text-justify'>Explore adventures, attend local events, go on animal safaris.</p>
+                    <button onClick={() => { router.push('/home')}} className='font-poppins rounded-md px-3 py-4 bg-white font-medium tracking-widest text-black w-40 md:w-60'>Explore</button>
+                </div>
+                
             </div>
-          )
-      }
-    </div>
-  )
+            {
+                isLoading &&
+                <div className={'flex flex-col h-screen justify-center items-center '}>
+                    <CircularProgress thickness={4.5} className='!text-white' size={60} />
+                </div>
+            }
+        </div>
+    )
 }
 
-export default Home;
+export default Splash;

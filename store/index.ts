@@ -11,6 +11,10 @@ export interface ICollection {
     trending: [];
 }
 
+export interface IActivites {
+    data: [];
+}
+
 export interface IBooking {
     startDate: Date | null;
     duration: {
@@ -26,6 +30,15 @@ export interface IBooking {
     hasDates: boolean;
 }
 
+export const error = atom({
+    key: 'errorState',
+    default: {
+        err: '',
+        message: '',
+        code: 0
+    }
+})
+
 
 export const collection = atom<ICollection>({
     key: 'collectionState',
@@ -33,6 +46,13 @@ export const collection = atom<ICollection>({
         recent: [],
         popular: [],
         trending: []
+    }
+})
+
+export const activities = atom<IActivites>({
+    key: 'activitiesState',
+    default: {
+        data: []
     }
 })
 
