@@ -11,9 +11,6 @@ export interface ICollection {
     trending: [];
 }
 
-export interface IActivites {
-    data: [];
-}
 
 export interface IBooking {
     startDate: Date | null;
@@ -30,15 +27,14 @@ export interface IBooking {
     hasDates: boolean;
 }
 
-export const error = atom({
+export const errorState = atom({
     key: 'errorState',
     default: {
-        err: '',
+        name: '',
         message: '',
         code: 0
     }
 })
-
 
 export const collection = atom<ICollection>({
     key: 'collectionState',
@@ -49,11 +45,9 @@ export const collection = atom<ICollection>({
     }
 })
 
-export const activities = atom<IActivites>({
+export const activitiesState = atom<Array<Object>>({
     key: 'activitiesState',
-    default: {
-        data: []
-    }
+    default: []
 })
 
 export const authState = atom<IAuth>({
@@ -81,3 +75,12 @@ export const bookingState = atom<IBooking>({
         hasDates: false
     }
 })
+
+export const searchState = atom({
+    key: 'searchState',
+    default: {
+        location: "",
+        activity: "",
+        partner: ""
+    }
+});

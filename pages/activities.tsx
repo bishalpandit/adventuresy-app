@@ -2,58 +2,61 @@ import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
 import { ChevronDownIcon, FilterIcon, MinusSmIcon, PlusSmIcon, ViewGridIcon } from '@heroicons/react/solid'
+import SearchBar from '../components/Hero/SearchBar'
+import { activitiesState } from '../store/index';
+import { useRecoilState } from 'recoil';
+import AdventureCard from '../components/Adventure/AdventureCard'
+import NavBar from '../components/Layout/NavBar'
+import axios from 'axios';
+import baseURL from '../utils/baseURL';
 
 const sortOptions = [
-    { name: 'Most Popular', href: '#', current: true },
+    { name: 'Most Popular', href: '#', current: false },
     { name: 'Best Rating', href: '#', current: false },
     { name: 'Newest', href: '#', current: false },
     { name: 'Price: Low to High', href: '#', current: false },
     { name: 'Price: High to Low', href: '#', current: false },
 ]
 const subCategories = [
-    { name: 'Totes', href: '#' },
-    { name: 'Backpacks', href: '#' },
-    { name: 'Travel Bags', href: '#' },
-    { name: 'Hip Bags', href: '#' },
-    { name: 'Laptop Sleeves', href: '#' },
+    { name: 'Skiing', href: '#' },
+    { name: 'Scuba Diving', href: '#' },
+    { name: 'Bungee Jumping', href: '#' },
+    { name: 'Para Gliding', href: '#' },
 ]
 const filters = [
     {
-        id: 'color',
-        name: 'Color',
+        id: 'activity',
+        name: 'Activity',
         options: [
-            { value: 'white', label: 'White', checked: false },
-            { value: 'beige', label: 'Beige', checked: false },
-            { value: 'blue', label: 'Blue', checked: true },
-            { value: 'brown', label: 'Brown', checked: false },
-            { value: 'green', label: 'Green', checked: false },
-            { value: 'purple', label: 'Purple', checked: false },
+            { value: 'skiing', label: 'Skiing', checked: false },
+            { value: 'scuba-diving', label: 'Scuba Diving', checked: false },
+            { value: 'para-gliding', label: 'Para Gliding', checked: false },
+            { value: 'animal-safari', label: 'Animal Safari', checked: false },
+            { value: 'sky-diving', label: 'Sky Diving', checked: false }
         ],
     },
     {
-        id: 'category',
-        name: 'Category',
+        id: 'location',
+        name: 'Location',
         options: [
-            { value: 'new-arrivals', label: 'New Arrivals', checked: false },
-            { value: 'sale', label: 'Sale', checked: false },
-            { value: 'travel', label: 'Travel', checked: true },
-            { value: 'organization', label: 'Organization', checked: false },
-            { value: 'accessories', label: 'Accessories', checked: false },
+            { value: 'india', label: 'India', checked: true },
+            { value: 'uttarakhand', label: 'Uttarakhand', checked: false },
+            { value: 'himachal-pradesh', label: 'Himachal Pradesh', checked: false },
+            { value: 'goa', label: 'Goa', checked: false },
+            { value: 'asia', label: 'Asia', checked: false },
         ],
     },
     {
-        id: 'size',
-        name: 'Size',
+        id: 'partner',
+        name: 'Partner',
         options: [
-            { value: '2l', label: '2L', checked: false },
-            { value: '6l', label: '6L', checked: false },
-            { value: '12l', label: '12L', checked: false },
-            { value: '18l', label: '18L', checked: false },
-            { value: '20l', label: '20L', checked: false },
-            { value: '40l', label: '40L', checked: true },
+            { value: 'alta-advent', label: 'Alta Advent', checked: false },
+            { value: 'skywalt', label: 'Skywalt', checked: false },
+            { value: 'braver', label: 'Braver', checked: false },
         ],
     },
 ]
+
 
 function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
@@ -61,10 +64,84 @@ function classNames(...classes: any) {
 
 export default function Activities() {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+    const [activities, setActivities] = useRecoilState(activitiesState);
+    const [selectFilters, setSelectFilters] = useState([
+        Array<boolean>(filters[0].options.length).fill(false),
+        Array<boolean>(true, false, false, false, false),
+        Array<boolean>(filters[2].options.length).fill(false)
+    ]);
+
+    const handleFilters = (sectionIdx: number, optionIdx: number) => {
+
+        let newState = [...selectFilters];
+        newState[sectionIdx][optionIdx] = !newState[sectionIdx][optionIdx];
+
+        setSelectFilters(newState);
+
+        interface Query {
+            activity: any[];
+            location: any[];
+            partner: any[];
+        }
+
+        let query: Query = {
+            activity: [],
+            location: [],
+            partner: []
+        };
+
+        selectFilters.forEach((section, secIdx) => {
+            //@ts-ignore
+            query[filters[secIdx].id] = filters[secIdx].options
+                .filter((option, optIdx) => {
+                    if (section[optIdx])
+                        return option['value'];
+                })
+        });
+
+        query.activity = query.activity
+            .map(activity => {
+                return activity['value'];
+            });
+
+        query.location = query.location
+            .map(location => {
+                return location['value'];
+            });
+
+        query.partner = query.partner
+            .map(partner => {
+                return partner['value'];
+            });
+
+        console.log(query);
+
+        axios
+            .get(`${baseURL}/api/adventures/filter`, {
+                params: query
+            })
+            .then((res) => {
+                const queryData = res.data.data;
+                setActivities(queryData);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
+    }
 
     return (
-        <div className="bg-white">
+        <div className="bg-black/80">
+
             <div>
+                <div className='pb-10'>
+                    <NavBar />
+                </div>
+
+                <div className='w-[75%] mx-auto p-4'>
+                    <SearchBar />
+                </div>
+
                 {/* Mobile filter dialog */}
                 <Transition.Root show={mobileFiltersOpen} as={Fragment}>
                     <Dialog as="div" className="relative z-40 lg:hidden" onClose={setMobileFiltersOpen}>
@@ -105,18 +182,8 @@ export default function Activities() {
 
                                     {/* Filters */}
                                     <form className="mt-4 border-t border-gray-200">
-                                        <h3 className="sr-only">Categories</h3>
-                                        <ul role="list" className="font-medium text-gray-900 px-2 py-3">
-                                            {subCategories.map((category) => (
-                                                <li key={category.name}>
-                                                    <a href={category.href} className="block px-2 py-3">
-                                                        {category.name}
-                                                    </a>
-                                                </li>
-                                            ))}
-                                        </ul>
 
-                                        {filters.map((section) => (
+                                        {filters.map((section, sectionIdx) => (
                                             <Disclosure as="div" key={section.id} className="border-t border-gray-200 px-4 py-6">
                                                 {({ open }) => (
                                                     <>
@@ -139,14 +206,15 @@ export default function Activities() {
                                                                         <input
                                                                             id={`filter-mobile-${section.id}-${optionIdx}`}
                                                                             name={`${section.id}[]`}
-                                                                            defaultValue={option.value}
+                                                                            value={filters[sectionIdx].options[optionIdx].value}
                                                                             type="checkbox"
-                                                                            defaultChecked={option.checked}
-                                                                            className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                                            checked={selectFilters[sectionIdx][optionIdx]}
+                                                                            onChange={() => handleFilters(sectionIdx, optionIdx)}
+                                                                            className="h-4 w-4 border-gray-300 rounded text-sky-600 focus:ring-sky-500"
                                                                         />
                                                                         <label
                                                                             htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                                                            className="ml-3 min-w-0 flex-1 text-gray-500"
+                                                                            className="ml-3 min-w-0 flex-1 text-gray-200"
                                                                         >
                                                                             {option.label}
                                                                         </label>
@@ -165,17 +233,17 @@ export default function Activities() {
                     </Dialog>
                 </Transition.Root>
 
-                <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="relative z-10 flex items-baseline justify-between pt-24 pb-6 border-b border-gray-200">
-                        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">All Activities</h1>
+                <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+                    <div className="relative z-10 flex items-baseline justify-between pt-6 pb-6">
+                        <h1 className="text-3xl font-extrabold tracking-tight ">Activities</h1>
 
                         <div className="flex items-center">
                             <Menu as="div" className="relative inline-block text-left">
                                 <div>
-                                    <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                    <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-200 hover:text-gray-300">
                                         Sort
                                         <ChevronDownIcon
-                                            className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                            className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-200 group-hover:text-gray-300"
                                             aria-hidden="true"
                                         />
                                     </Menu.Button>
@@ -213,13 +281,9 @@ export default function Activities() {
                                 </Transition>
                             </Menu>
 
-                            <button type="button" className="p-2 -m-2 ml-5 sm:ml-7 text-gray-400 hover:text-gray-500">
-                                <span className="sr-only">View grid</span>
-                                <ViewGridIcon className="w-5 h-5" aria-hidden="true" />
-                            </button>
                             <button
                                 type="button"
-                                className="p-2 -m-2 ml-4 sm:ml-6 text-gray-400 hover:text-gray-500 lg:hidden"
+                                className="p-2 -m-2 ml-4 sm:ml-6 text-gray-200 hover:text-gray-200 lg:hidden"
                                 onClick={() => setMobileFiltersOpen(true)}
                             >
                                 <span className="sr-only">Filters</span>
@@ -228,30 +292,32 @@ export default function Activities() {
                         </div>
                     </div>
 
-                    <section aria-labelledby="products-heading" className="pt-6 pb-24">
-                        <h2 id="products-heading" className="sr-only">
-                            Products
+
+
+                    <section aria-labelledby="activities-heading" className="pt-6 pb-24">
+                        <h2 id="acitivites-heading" className="sr-only">
+                            Activities
                         </h2>
 
                         <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
                             {/* Filters */}
-                            <form className="hidden lg:block">
-                                <h3 className="sr-only">Categories</h3>
+                            <form className="hidden lg:block rounded-lg bg-dark-800 p-4 h-fit">
+                                {/* <h3 className="sr-only">Categories</h3>
                                 <ul role="list" className="text-sm font-medium text-gray-900 space-y-4 pb-6 border-b border-gray-200">
                                     {subCategories.map((category) => (
                                         <li key={category.name}>
                                             <a href={category.href}>{category.name}</a>
                                         </li>
                                     ))}
-                                </ul>
-
-                                {filters.map((section) => (
-                                    <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
+                                </ul> */}
+                                <h3 className='font-medium text-xl'>Filters</h3>
+                                {filters.map((section, sectionIdx) => (
+                                    <Disclosure as="div" key={section.id} className="border-b border-sky-500 py-6">
                                         {({ open }) => (
                                             <>
                                                 <h3 className="-my-3 flow-root">
-                                                    <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
-                                                        <span className="font-medium text-gray-900">{section.name}</span>
+                                                    <Disclosure.Button className="py-3  w-full flex items-center justify-between text-sm text-gray-200 hover:text-gray-300">
+                                                        <span className="font-medium text-gray-200">{section.name}</span>
                                                         <span className="ml-6 flex items-center">
                                                             {open ? (
                                                                 <MinusSmIcon className="h-5 w-5" aria-hidden="true" />
@@ -268,14 +334,15 @@ export default function Activities() {
                                                                 <input
                                                                     id={`filter-${section.id}-${optionIdx}`}
                                                                     name={`${section.id}[]`}
-                                                                    defaultValue={option.value}
+                                                                    value={option.value}
                                                                     type="checkbox"
-                                                                    defaultChecked={option.checked}
-                                                                    className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                                    checked={selectFilters[sectionIdx][optionIdx]}
+                                                                    onChange={(e) => handleFilters(sectionIdx, optionIdx)}
+                                                                    className="h-4 w-4 border-gray-300 rounded text-sky-600 focus:ring-sky-500"
                                                                 />
                                                                 <label
                                                                     htmlFor={`filter-${section.id}-${optionIdx}`}
-                                                                    className="ml-3 text-sm text-gray-600"
+                                                                    className="ml-3 text-sm text-gray-200"
                                                                 >
                                                                     {option.label}
                                                                 </label>
@@ -289,11 +356,18 @@ export default function Activities() {
                                 ))}
                             </form>
 
-                            {/* Product grid */}
+                            {/* Activities grid */}
                             <div className="lg:col-span-3">
-                                {/* Replace with your content */}
-                                <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 lg:h-full" />
-                                {/* /End replace */}
+                                <div className='grid xs:grid-col-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-2'>
+                                    {
+                                        activities.map((activity, idx) =>
+                                            <AdventureCard
+                                                key={idx}
+                                                adventure={activity}
+                                            />
+                                        )
+                                    }
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -302,3 +376,32 @@ export default function Activities() {
         </div>
     )
 }
+
+// export async function getServerSideProps({ query }) {
+//     const minPrice = query.minPrice || '0';
+//     const maxPrice = query.maxPrice || '1000000';
+//     const data = await fetchApi(`${baseUrl}/properties/list?locationExternalIDs=${locationExternalIDs}&purpose=${purpose}&categoryExternalID=${categoryExternalID}&bathsMin=${bathsMin}&rentFrequency=${rentFrequency}&priceMin=${minPrice}&priceMax=${maxPrice}&roomsMin=${roomsMin}&sort=${sort}&areaMax=${areaMax}`);
+
+//     return {
+//         props: {
+//             properties: data?.hits,
+//         },
+//     };
+// }
+
+// const updatedState: boolean[][] = selectFilters.map((section, secIdx) => {
+//     return section.map((option, optIdx) => {
+//         return (sectionIdx === secIdx && optionIdx == optIdx) ? !option : option;
+//     })
+// }) as boolean[][];
+
+{/* <h3 className="sr-only">Categories</h3>
+                                        <ul role="list" className="font-medium text-gray-900 px-2 py-3">
+                                            {subCategories.map((category) => (
+                                                <li key={category.name}>
+                                                    <a href={category.href} className="block px-2 py-3">
+                                                        {category.name}
+                                                    </a>
+                                                </li>
+                                            ))}
+                                        </ul> */}

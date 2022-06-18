@@ -5,15 +5,15 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
-import PartnersList from '../../components/Dropdown/PartnersList';
+import PartnersList from '../../components/Menus/PartnersList';
 import NavBar from '../../components/Layout/NavBar';
 import Rating from '../../components/Rating';
 import baseURL from '../../utils/baseURL';
 import imgBaseURL from '../../utils/imgBaseURL';
 import { bookingState, IBooking } from '../../store/index'
 import { useRecoilState } from 'recoil'
-import DurationList from '../../components/Dropdown/DurationList';
-import PersonList from '../../components/Dropdown/PersonList';
+import DurationList from '../../components/Menus/DurationList';
+import PersonList from '../../components/Menus/PersonList';
 import dynamic from 'next/dynamic';
 import { useAuth } from '../../hooks/useAuth';
 const AdventureMap = dynamic(

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
-import Menu from '../Dropdown'
+import Menu from '../Menus'
 import { useRecoilValue } from "recoil";
 import { authState } from "../../store";
 import dynamic from 'next/dynamic'
@@ -16,11 +16,10 @@ const NavBar = () => {
     const [registerOpen, setRegisterOpen] = useState(false);
     const [loginOpen, setLoginOpen] = useState(false);
     const auth = useRecoilValue(authState);
-    console.log(auth);
     
 
     return (
-        <div className='brand-logo flex flex-row justify-between md:justify-around h-11 p-3'>
+        <div className='brand-logo flex flex-row justify-between md:justify-around h-17 p-3 bg-dark-800  shadow-lg shadow-black/90'>
             <div className=' h-10 w-36 mt-2 relative '>
                 <Image src='/logo.png' layout='fill' objectFit="contain" alt='brand-logo' />
             </div>

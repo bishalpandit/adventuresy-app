@@ -3,8 +3,16 @@ import { SearchIcon } from '@heroicons/react/outline'
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import baseURL from '../../utils/baseURL';
+import { activitiesState, searchState, errorState } from '../../store';
+import { useSetRecoilState, useRecoilState } from 'recoil';
+import { useRouter } from 'next/router';
 
 const SearchBar = () => {
+
+    const router = useRouter();
+    const setActivities = useSetRecoilState(activitiesState);
+    const setError = useSetRecoilState(errorState);
+    const [search, setSearch] = useRecoilState(searchState);
 
     const {
         register,
@@ -15,17 +23,25 @@ const SearchBar = () => {
 
     const handleSearch = async (data: any) => {
         const { location, activity, partner } = data;
-        console.log(activity);
         
         axios.get(`${baseURL}/api/adventures/search?location=${location}&activity=${activity}&partner=${partner}`)
         .then((res) => {
-            const queryData = res.data;
-            console.log(queryData);
-            
-            // Other stuff
+            const queryData = res.data.data;
+            setActivities(queryData);
+            setSearch({
+                location,
+                activity,
+                partner
+            });
+            router.push('/activities', undefined, { shallow: true });
         })
         .catch(err => {
             console.log(err);
+            setError({
+                name: 'Search Err',
+                message: err,
+                code: 400
+            })
         })
     }
 
@@ -40,6 +56,7 @@ const SearchBar = () => {
                           type="text"
                           name="location"
                           id="location"
+                          defaultValue={search.location}
                           className="focus:border-white focus:ring-gray-200 h-6 flex-1 block w-full  rounded-lg sm:text-sm border-white"
                           placeholder="e.g. Great Barrier Reef..."
                         />
@@ -51,6 +68,7 @@ const SearchBar = () => {
                           type="text"
                           name="activity"
                           id="activity"
+                          defaultValue={search.activity}
                           className="focus:border-white focus:ring-gray-200 h-6 flex-1 block w-full  rounded-lg sm:text-sm border-white"
                           placeholder="e.g. Skydiving, Kayak..."
                         />
@@ -62,6 +80,7 @@ const SearchBar = () => {
                           type="text"
                           name="partner"
                           id="partner"
+                          defaultValue={search.partner}
                           className="focus:border-white focus:ring-gray-200 h-6 flex-1 block w-full  rounded-lg sm:text-sm border-white"
                           placeholder="e.g. Triogo, Frolio..."
                         />
