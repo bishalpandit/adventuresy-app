@@ -1,2 +1,2 @@
-const baseURL = 'http://localhost:5000';
+const baseURL = 'https://api.adventuresy.in';
 export default baseURL;
