@@ -5,15 +5,15 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
-import PartnersList from '../../components/Dropdown/PartnersList';
+import PartnersList from '../../components/Menus/PartnersList';
 import NavBar from '../../components/Layout/NavBar';
 import Rating from '../../components/Rating';
 import baseURL from '../../utils/baseURL';
 import imgBaseURL from '../../utils/imgBaseURL';
 import { bookingState, IBooking } from '../../store/index'
 import { useRecoilState } from 'recoil'
-import DurationList from '../../components/Dropdown/DurationList';
-import PersonList from '../../components/Dropdown/PersonList';
+import DurationList from '../../components/Menus/DurationList';
+import PersonList from '../../components/Menus/PersonList';
 import dynamic from 'next/dynamic';
 import { useAuth } from '../../hooks/useAuth';
 const AdventureMap = dynamic(
@@ -32,7 +32,6 @@ function Adventure() {
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [booking, setBooking] = useRecoilState<any>(bookingState);
-    const { checkAuth } = useAuth();
 
     useEffect(() => {
         const calcMinPrice = (partners: []) => {
@@ -75,12 +74,10 @@ function Adventure() {
         };
         
         (async () => {
-            await checkAuth();
             await fetchAdventure();
         })();
     }, []);
 
-    console.log(booking);
 
 
     return (
@@ -99,7 +96,7 @@ function Adventure() {
                             <h2 className="self-start font-montserrat font-semibold w-[60%] text-3xl tracking-wider leading-normal">{adventure.adventure.title}</h2>
                             <div className="flex space-x-8">
                                 <Rating rating={adventure.rating} />
-                                <div>
+                                <div className='flex flex-wrap gap-2'>
                                     {
                                         adventure.adventure.tags ?
                                             adventure.adventure.tags

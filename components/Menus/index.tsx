@@ -7,12 +7,10 @@ import { useSetRecoilState } from 'recoil'
 import { authState } from '../../store'
 import axios from 'axios'
 import baseURL from '../../utils/baseURL'
-import { useRouter } from 'next/router'
 
 export default function Dropdown() {
   const setAuth = useSetRecoilState(authState);
 
-  const router = useRouter();
   const config = genConfig();
 
   const logoutHandler = async () => {
@@ -25,7 +23,6 @@ export default function Dropdown() {
           isAuthenticated: false,
           authUser: null
         })
-        router.push('/splash', undefined, { shallow: true });
       })
       .catch(err => {
         console.log(err);

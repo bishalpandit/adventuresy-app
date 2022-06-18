@@ -54,7 +54,7 @@ const AdventureCollection = () => {
         </Tab.Group>
 
         {/* Recommended  */}
-        <h2 className='title'>Top picks for {auth.authUser?.first_name}</h2>
+        <h2 className='title'>Top picks for You</h2>
         <AdventureSlider collection={collectionVal.recent as any} />
       </div>
     ) : null

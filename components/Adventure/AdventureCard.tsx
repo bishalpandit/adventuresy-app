@@ -11,7 +11,7 @@ const AdventureCard = ({ adventure }: { adventure: any }) => {
             <Image src={`${imgBaseURL}/${adventure.img_link}`} className='rounded-3xl opacity-[0.9]' layout='fill' objectFit='cover' alt='adventure-card-img' />
 
             <div className='inset-x-4 inset-y-32 space-y-3 absolute font-poppins tracking-wider w-[60%]'>
-                <h2 className='text-2xl md:text-2xl lg-2xl font-medium'>{adventure.title}</h2>
+                <h2 className='text-2xl md:text-2xl lg-2xl font-medium'>{adventure.title.substr(0, 23) + (adventure.title.length > 23 ? "...": "")}</h2>
                 <p className='text-xs font-extralight'>{adventure.summary.substr(0, 40) + "..."}</p>
             </div>
             <div className='absolute bottom-8 right-6 '>

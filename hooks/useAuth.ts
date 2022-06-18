@@ -13,7 +13,6 @@ export function useAuth() {
             .get(`${baseURL}/api/auth/user`, { withCredentials: true })
             .then(res => {
                 const auth = res.data;
-                console.log(auth);
 
                 if (auth.status == true) {
                     setAuth({
@@ -25,7 +24,6 @@ export function useAuth() {
                         isAuthenticated: false,
                         authUser: null
                     });
-                    router.push('/splash', undefined, { shallow: true });
                 }
             })
     }

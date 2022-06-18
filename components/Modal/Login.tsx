@@ -6,10 +6,13 @@ import Loader from '../Loader';
 import { useRouter } from 'next/router';
 import baseURL from '../../utils/baseURL';
 import GoogleButton from 'react-google-button';
+import { useSetRecoilState } from "recoil";
+import { authState } from "../../store";
 
 export default function LoginModal({ open, setRegisterOpen }: any) {
     const [isOpen, setIsOpen] = open;
     const [loading, setLoading] = useState(false);
+    const setAuth = useSetRecoilState(authState);
 
     const {
         register,
@@ -41,7 +44,12 @@ export default function LoginModal({ open, setRegisterOpen }: any) {
                 password: data.password
             }, { withCredentials: true })
             .then(res => {
-                router.push('/', undefined, { shallow: true });
+                setAuth({
+                    authUser: res.data.user,
+                    isAuthenticated: true
+                })
+                setLoading(false);
+                setIsOpen(false);
             })
             .catch(err => {
                 console.log(err);
