@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
 import { ChevronDownIcon, FilterIcon, MinusSmIcon, PlusSmIcon, ViewGridIcon } from '@heroicons/react/solid'
@@ -25,34 +25,32 @@ const subCategories = [
 ]
 const filters = [
     {
-        id: 'activity',
+        id: 'type',
         name: 'Activity',
         options: [
-            { value: 'skiing', label: 'Skiing', checked: false },
-            { value: 'scuba-diving', label: 'Scuba Diving', checked: false },
-            { value: 'para-gliding', label: 'Para Gliding', checked: false },
-            { value: 'animal-safari', label: 'Animal Safari', checked: false },
-            { value: 'sky-diving', label: 'Sky Diving', checked: false }
+            { value: 'Scuba Diving', label: 'Scuba Diving', checked: false },
+            { value: 'Para Gliding', label: 'Para Gliding', checked: false },
+            { value: 'Bungee Jumping', label: 'Bungee Jumping', checked: false },
+            { value: 'Sky Diving', label: 'Sky Diving', checked: false }
         ],
     },
     {
-        id: 'location',
+        id: 'address',
         name: 'Location',
         options: [
-            { value: 'india', label: 'India', checked: true },
-            { value: 'uttarakhand', label: 'Uttarakhand', checked: false },
-            { value: 'himachal-pradesh', label: 'Himachal Pradesh', checked: false },
-            { value: 'goa', label: 'Goa', checked: false },
-            { value: 'asia', label: 'Asia', checked: false },
+            { value: 'India', label: 'India', checked: true },
+            { value: 'Uttarakhand', label: 'Uttarakhand', checked: false },
+            { value: 'Goa', label: 'Goa', checked: false },
         ],
     },
     {
-        id: 'partner',
+        id: 'pname',
         name: 'Partner',
         options: [
-            { value: 'alta-advent', label: 'Alta Advent', checked: false },
-            { value: 'skywalt', label: 'Skywalt', checked: false },
-            { value: 'braver', label: 'Braver', checked: false },
+            { value: 'Alta Advent', label: 'Alta Advent', checked: false },
+            { value: 'Skywalt', label: 'Skywalt', checked: false },
+            { value: 'Braver', label: 'Braver', checked: false },
+            { value: 'OutBound Adventures', label: 'OutBound', checked: false },
         ],
     },
 ]
@@ -65,11 +63,16 @@ function classNames(...classes: any) {
 export default function Activities() {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
     const [activities, setActivities] = useRecoilState(activitiesState);
+
     const [selectFilters, setSelectFilters] = useState([
         Array<boolean>(filters[0].options.length).fill(false),
-        Array<boolean>(true, false, false, false, false),
+        Array<boolean>(filters[0].options.length).fill(false),
         Array<boolean>(filters[2].options.length).fill(false)
     ]);
+
+    useEffect(() => {
+        handleFilters(1, 0);
+    }, []);
 
     const handleFilters = (sectionIdx: number, optionIdx: number) => {
 
@@ -79,15 +82,15 @@ export default function Activities() {
         setSelectFilters(newState);
 
         interface Query {
-            activity: any[];
-            location: any[];
-            partner: any[];
+            type: any[];
+            address: any[];
+            pname: any[];
         }
 
         let query: Query = {
-            activity: [],
-            location: [],
-            partner: []
+            type: [],
+            address: [],
+            pname: []
         };
 
         selectFilters.forEach((section, secIdx) => {
@@ -95,26 +98,25 @@ export default function Activities() {
             query[filters[secIdx].id] = filters[secIdx].options
                 .filter((option, optIdx) => {
                     if (section[optIdx])
-                        return option['value'];
+                        return option;
                 })
         });
 
-        query.activity = query.activity
-            .map(activity => {
-                return activity['value'];
+        query.type = query.type
+            .map(type => {
+                return type['value'];
             });
 
-        query.location = query.location
-            .map(location => {
-                return location['value'];
+        query.address = query.address
+            .map(address => {
+                return address['value'];
             });
 
-        query.partner = query.partner
-            .map(partner => {
-                return partner['value'];
+        query.pname = query.pname
+            .map(pname => {
+                return pname['value'];
             });
 
-        console.log(query);
 
         axios
             .get(`${baseURL}/api/adventures/filter`, {
@@ -127,7 +129,6 @@ export default function Activities() {
             .catch(err => {
                 console.log(err);
             })
-
     }
 
     return (
@@ -214,7 +215,7 @@ export default function Activities() {
                                                                         />
                                                                         <label
                                                                             htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                                                            className="ml-3 min-w-0 flex-1 text-gray-200"
+                                                                            className="ml-3 min-w-0 flex-1 text-gray-800"
                                                                         >
                                                                             {option.label}
                                                                         </label>
@@ -302,14 +303,7 @@ export default function Activities() {
                         <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
                             {/* Filters */}
                             <form className="hidden lg:block rounded-lg bg-dark-800 p-4 h-fit">
-                                {/* <h3 className="sr-only">Categories</h3>
-                                <ul role="list" className="text-sm font-medium text-gray-900 space-y-4 pb-6 border-b border-gray-200">
-                                    {subCategories.map((category) => (
-                                        <li key={category.name}>
-                                            <a href={category.href}>{category.name}</a>
-                                        </li>
-                                    ))}
-                                </ul> */}
+
                                 <h3 className='font-medium text-xl'>Filters</h3>
                                 {filters.map((section, sectionIdx) => (
                                     <Disclosure as="div" key={section.id} className="border-b border-sky-500 py-6">
