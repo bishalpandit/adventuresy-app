@@ -23,9 +23,6 @@ function Profile() {
         })();
     }, []);
 
-    const handleSave = () => {
-
-    }
 
     return (
         loading ?
@@ -61,7 +58,7 @@ function Profile() {
                             <button onClick={() => setEdit((prev) => !prev)} className='rounded-lg px-16 py-4 bg-sky-600 md:text-xl font-medium font-ubuntu'>
                                 {
                                     edit ?
-                                        <p onClick={handleSave}>Save</p> :
+                                        <p >Save</p> :
                                         <p>Edit</p>
                                 }
                             </button>

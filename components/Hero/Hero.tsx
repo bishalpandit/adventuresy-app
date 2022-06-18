@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import SearchBar from './SearchBar'
 import { randomInt } from 'crypto';
+import Link from 'next/link';
 
 const Hero = () => {
     const heroImages = [
@@ -11,7 +12,7 @@ const Hero = () => {
         'paragliding.jpg',
         'skydiving.webp'
     ];
-    const heroImage = heroImages[Math.floor(Math.random()*(heroImages.length - 1))]
+    const heroImage = heroImages[Math.floor(Math.random() * (heroImages.length - 1))]
 
     return (
         <div className='h-[450px] lg:h-[600px] max-w-[80%] mx-auto mt-20 relative'>
@@ -20,6 +21,14 @@ const Hero = () => {
                 <SearchBar />
                 <h1 className='ml-2 sm:ml-0 mb-4 text-3xl sm:text-4xl lg:text-6xl sm:font-normal leading-[45px] md:leading-[80px]' >Explore Exciting Adventures, Sports and Rides</h1>
                 <p className='ml-2 sm:ml-0 leading-loose sm:leading-relaxed text-xs sm:text-base tracking-wider'>Enjoy exhilarating adventures, fun rides and cool sports. Book one with our trusted partners.</p>
+                <Link href='/activities' passHref shallow>
+                    <button
+                        className='h-8 w-24 md:hidden bg-white text-[10px] font-medium text-black rounded-lg'
+                    >
+                        See Activities
+                    </button>
+                </Link>
+
             </div>
 
         </div>

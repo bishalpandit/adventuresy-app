@@ -9,6 +9,7 @@ import AdventureCard from '../components/Adventure/AdventureCard'
 import NavBar from '../components/Layout/NavBar'
 import axios from 'axios';
 import baseURL from '../utils/baseURL';
+import Loader from '../components/Loader'
 
 const sortOptions = [
     { name: 'Most Popular', href: '#', current: false },
@@ -63,6 +64,7 @@ function classNames(...classes: any) {
 export default function Activities() {
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
     const [activities, setActivities] = useRecoilState(activitiesState);
+    const [loading, setLoading] = useState(false);
 
     const [selectFilters, setSelectFilters] = useState([
         Array<boolean>(filters[0].options.length).fill(false),
@@ -71,7 +73,8 @@ export default function Activities() {
     ]);
 
     useEffect(() => {
-        handleFilters(1, 0);
+        if (activities.length === 0)
+            handleFilters(1, 0);
     }, []);
 
     const handleFilters = (sectionIdx: number, optionIdx: number) => {
@@ -117,7 +120,7 @@ export default function Activities() {
                 return pname['value'];
             });
 
-
+        setLoading(true);
         axios
             .get(`${baseURL}/api/adventures/filter`, {
                 params: query
@@ -125,9 +128,11 @@ export default function Activities() {
             .then((res) => {
                 const queryData = res.data.data;
                 setActivities(queryData);
+                setLoading(false);
             })
             .catch(err => {
                 console.log(err);
+                setLoading(false);
             })
     }
 
@@ -352,20 +357,30 @@ export default function Activities() {
 
                             {/* Activities grid */}
                             <div className="lg:col-span-3">
-                                <div className='grid xs:grid-col-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-2'>
-                                    {
-                                        activities.map((activity, idx) =>
-                                            <AdventureCard
-                                                key={idx}
-                                                adventure={activity}
-                                            />
-                                        )
-                                    }
-                                </div>
+                                {
+                                    loading
+                                        ?
+                                        <div className='w-full mx-auto h-full mt-32'>
+                                            <Loader />
+                                        </div>
+                                        :
+                                        <div className='grid xs:grid-col-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-2'>
+                                            {
+                                                activities.map((activity, idx) =>
+                                                    <AdventureCard
+                                                        key={idx}
+                                                        adventure={activity}
+                                                    />
+                                                )
+                                            }
+                                        </div>
+                                }
                             </div>
                         </div>
                     </section>
                 </main>
+
+
             </div>
         </div>
     )
