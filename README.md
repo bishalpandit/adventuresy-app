@@ -65,6 +65,10 @@
 ## About The Project
 
 [![SS1][ss1]]()
+</br></br>
+[![SS2][ss2]]()
+</br></br>
+[![SS3][ss3]]()
 
 </br></br>
 Adventuresy opens possibilities for you to go on exhilarating adventures all around the globe as well as explore local hotspots by connecting you with our partners. With our advanced searching and filters, finding places of your interests becomes a piece of cake.
@@ -153,4 +157,6 @@ Project Link: [https://github.com/bishalpandit/adventuresy-app](https://github.c
 [license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/othneildrew
-[ss1]: public/images/screenshot1.png
+[ss1]: public/images/screenshot.png
+[ss2]: public/ss2.png
+[ss3]: public/ss3.png
