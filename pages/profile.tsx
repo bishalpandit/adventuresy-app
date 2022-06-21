@@ -5,7 +5,7 @@ import { authState } from '../store'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@mui/material'
 import axios from 'axios'
-import baseURL from '../utils/baseURL';
+import apiUrl from '../utils/apiUrl';
 import { useAuth } from '../hooks/useAuth';
 import NavBar from '../components/Layout/NavBar';
 

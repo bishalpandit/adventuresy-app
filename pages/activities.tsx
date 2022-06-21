@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil';
 import AdventureCard from '../components/Adventure/AdventureCard'
 import NavBar from '../components/Layout/NavBar'
 import axios from 'axios';
-import baseURL from '../utils/baseURL';
+import apiUrl from '../utils/apiUrl';
 import Loader from '../components/Loader'
 
 const sortOptions = [
@@ -30,9 +30,11 @@ const filters = [
         name: 'Activity',
         options: [
             { value: 'Scuba Diving', label: 'Scuba Diving', checked: false },
-            { value: 'Para Gliding', label: 'Para Gliding', checked: false },
+            { value: 'Surfing', label: 'Surfing', checked: false },
+            { value: 'Parasailing', label: 'Parasailing', checked: false },
             { value: 'Bungee Jumping', label: 'Bungee Jumping', checked: false },
-            { value: 'Sky Diving', label: 'Sky Diving', checked: false }
+            { value: 'Sky Diving', label: 'Sky Diving', checked: false },
+            { value: 'Kayak', label: 'Kayak', checked: false }
         ],
     },
     {
@@ -122,7 +124,7 @@ export default function Activities() {
 
         setLoading(true);
         axios
-            .get(`${baseURL}/api/adventures/filter`, {
+            .get(`${apiUrl}/api/adventures/filter`, {
                 params: query
             })
             .then((res) => {
@@ -364,16 +366,27 @@ export default function Activities() {
                                             <Loader />
                                         </div>
                                         :
-                                        <div className='grid xs:grid-col-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-2'>
-                                            {
-                                                activities.map((activity, idx) =>
-                                                    <AdventureCard
-                                                        key={idx}
-                                                        adventure={activity}
-                                                    />
-                                                )
-                                            }
-                                        </div>
+
+                                        activities.length ?
+
+                                            (
+                                                <div className='grid xs:grid-col-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-2'>
+                                                    {
+                                                        activities.map((activity, idx) =>
+                                                            <AdventureCard
+                                                                key={idx}
+                                                                adventure={activity}
+                                                            />
+                                                        )
+
+                                                    }
+                                                </div>
+                                            ) :
+                                            (
+                                                <div className='w-full flex flex-col justify-center items-center'>
+                                                    <h3 className='font-bold text-xl '>Nothing to show</h3>
+                                                </div>
+                                            )
                                 }
                             </div>
                         </div>
@@ -385,32 +398,3 @@ export default function Activities() {
         </div>
     )
 }
-
-// export async function getServerSideProps({ query }) {
-//     const minPrice = query.minPrice || '0';
-//     const maxPrice = query.maxPrice || '1000000';
-//     const data = await fetchApi(`${baseUrl}/properties/list?locationExternalIDs=${locationExternalIDs}&purpose=${purpose}&categoryExternalID=${categoryExternalID}&bathsMin=${bathsMin}&rentFrequency=${rentFrequency}&priceMin=${minPrice}&priceMax=${maxPrice}&roomsMin=${roomsMin}&sort=${sort}&areaMax=${areaMax}`);
-
-//     return {
-//         props: {
-//             properties: data?.hits,
-//         },
-//     };
-// }
-
-// const updatedState: boolean[][] = selectFilters.map((section, secIdx) => {
-//     return section.map((option, optIdx) => {
-//         return (sectionIdx === secIdx && optionIdx == optIdx) ? !option : option;
-//     })
-// }) as boolean[][];
-
-{/* <h3 className="sr-only">Categories</h3>
-                                        <ul role="list" className="font-medium text-gray-900 px-2 py-3">
-                                            {subCategories.map((category) => (
-                                                <li key={category.name}>
-                                                    <a href={category.href} className="block px-2 py-3">
-                                                        {category.name}
-                                                    </a>
-                                                </li>
-                                            ))}
-                                        </ul> */}

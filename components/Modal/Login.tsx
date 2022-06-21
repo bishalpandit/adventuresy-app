@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import Loader from '../Loader';
 import { useRouter } from 'next/router';
-import baseURL from '../../utils/baseURL';
+import apiUrl from '../../utils/apiUrl';
 import GoogleButton from 'react-google-button';
 import { useSetRecoilState } from "recoil";
 import { authState } from "../../store";
@@ -27,7 +27,7 @@ export default function LoginModal({ open, setRegisterOpen }: any) {
         try {
             if (typeof window !== "undefined") {
                 setLoading(true);
-                const googleLoginURL: any = `${baseURL}/api/auth/login/google`;
+                const googleLoginURL: any = `${apiUrl}/api/auth/login/google`;
                 window.location.href = googleLoginURL;
             }
         } catch (error) {
@@ -39,7 +39,7 @@ export default function LoginModal({ open, setRegisterOpen }: any) {
     const handleLogin = async (data: any) => {
         setLoading(true);
         await axios
-            .post(`${baseURL}/api/auth/login`, {
+            .post(`${apiUrl}/api/auth/login`, {
                 email: data.email,
                 password: data.password
             }, { withCredentials: true })

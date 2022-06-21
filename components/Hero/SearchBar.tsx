@@ -2,7 +2,7 @@ import React from 'react'
 import { SearchIcon } from '@heroicons/react/outline'
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import baseURL from '../../utils/baseURL';
+import apiUrl from '../../utils/apiUrl';
 import { activitiesState, searchState, errorState } from '../../store';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { useRouter } from 'next/router';
@@ -24,7 +24,7 @@ const SearchBar = () => {
     const handleSearch = async (data: any) => {
         const { location, activity, partner } = data;
         
-        axios.get(`${baseURL}/api/adventures/search?location=${location}&activity=${activity}&partner=${partner}`)
+        axios.get(`${apiUrl}/api/adventures/search?location=${location}&activity=${activity}&partner=${partner}`)
         .then((res) => {
             const queryData = res.data.data;
             setActivities(queryData);

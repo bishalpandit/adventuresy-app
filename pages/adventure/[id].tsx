@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react'
 import PartnersList from '../../components/Menus/PartnersList';
 import NavBar from '../../components/Layout/NavBar';
 import Rating from '../../components/Rating';
-import baseURL from '../../utils/baseURL';
+import apiUrl from '../../utils/apiUrl';
 import imgBaseURL from '../../utils/imgBaseURL';
 import { bookingState, IBooking } from '../../store/index'
 import { useRecoilState } from 'recoil'
@@ -48,7 +48,7 @@ function Adventure() {
 
         const fetchAdventure = async () => {
             await axios
-                .get(`${baseURL}/api/adventures/details/${router.query.id}`, {
+                .get(`${apiUrl}/api/adventures/details/${router.query.id}`, {
                     withCredentials: true
                 })
                 .then((res) => {

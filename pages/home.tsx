@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import axios from 'axios';
-import baseURL from '../utils/baseURL';
+import apiUrl from '../utils/apiUrl';
 import { useSetRecoilState } from 'recoil';
 import { collection, authState } from '../store';
 import AdventureCollection from '../components/Adventure/AdventureCollection';
@@ -14,7 +14,7 @@ import { CircularProgress } from '@mui/material';
 import { useAuth } from '../hooks/useAuth';
 
 
-let endpoint = `${baseURL}/api/adventures?collections=trending&collections=popular&collections=recent&limit=5`;
+let endpoint = `${apiUrl}/api/adventures?collections=trending&collections=popular&collections=recent&limit=5`;
 
 const Home = () => {
   const setCollection = useSetRecoilState(collection);
@@ -57,7 +57,7 @@ const Home = () => {
               <Category />
               <CarouselSlider />
               <AdventureCollection />
-              <Partners />
+              <p className='text-center text-xs font-medium p-4'>&copy; Adventuresy 2022</p>
             </div>
           )
       }

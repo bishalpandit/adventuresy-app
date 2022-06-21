@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useRecoilState } from 'recoil'
 import { authState } from '../../store'
 import axios from 'axios'
-import baseURL from '../../utils/baseURL'
+import apiUrl from '../../utils/apiUrl'
 import { LoginIcon } from '@heroicons/react/outline'
 import { useAuth } from '../../hooks/useAuth'
 
@@ -23,7 +23,7 @@ export default function NavMenu({ login }: any) {
   const logoutHandler = async () => {
 
     await axios
-      .get(`${baseURL}/api/auth/logout`, { withCredentials: true })
+      .get(`${apiUrl}/api/auth/logout`, { withCredentials: true })
       .then(res => {
         console.log(res.data);
         setAuth({

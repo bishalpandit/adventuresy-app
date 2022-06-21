@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import CircularProgress from '@mui/material/CircularProgress';
-import baseURL from '../utils/baseURL';
+import apiUrl from '../utils/apiUrl';
 
 import { useRouter } from 'next/router'
 
@@ -30,7 +30,7 @@ function Splash() {
                     }}
                 >
                     <source
-                        src={`${baseURL}/api/stream/splash`}
+                        src={`${apiUrl}/api/stream/splash`}
                         type="video/webm"
                     />
                     Your browser does not support the video tag.

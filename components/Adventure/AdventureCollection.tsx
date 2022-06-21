@@ -11,16 +11,31 @@ function classNames(...classes: any) {
 const AdventureCollection = () => {
   const collectionVal = useRecoilValue(collection);
   const auth = useRecoilValue<any>(authState);
+  let recommended = [...collectionVal.recent];
 
+  if (window !== undefined) {
+    for (let i = recommended.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = recommended[i];
+      recommended[i] = recommended[j];
+      recommended[j] = temp;
+    }
+  }
+
+  const collections = {
+    recent: collectionVal.recent,
+    popular: collectionVal.popular,
+    trending: collectionVal.trending
+  };
 
   return (
     collectionVal ? (
-      <div className="w-[90%] flex flex-col ml-4 md:ml-16 gap-14 mt-20">
+      <div className="w-[90%] flex flex-col ml-4 md:ml-16 gap-14 my-20">
         {/* Slider with Categories  */}
         <Tab.Group>
 
           <Tab.List className="flex p-1  space-x-1 min-w-[260px] w-1/4 md:w-1/3 bg-blue-900/20 rounded-xl">
-            {Object.keys(collectionVal).map((category) => (
+            {Object.keys(collections).map((category) => (
               <Tab
                 key={category}
                 className={({ selected }) =>
@@ -39,7 +54,7 @@ const AdventureCollection = () => {
           </Tab.List>
 
           <Tab.Panels className="mt-4">
-            {Object.values(collectionVal).map((collection, idx) => (
+            {Object.values(collections).map((collection, idx) => (
 
               <Tab.Panel
                 key={idx}
@@ -54,8 +69,8 @@ const AdventureCollection = () => {
         </Tab.Group>
 
         {/* Recommended  */}
-        <h2 className='title'>Top picks for You</h2>
-        <AdventureSlider collection={collectionVal.recent as any} />
+        <h2 className='title'>Top picks for {auth.isAuthenticated ? auth.authUser.first_name : 'You'}</h2>
+        <AdventureSlider collection={recommended} />
       </div>
     ) : null
   )

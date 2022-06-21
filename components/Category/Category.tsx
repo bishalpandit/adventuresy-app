@@ -18,10 +18,6 @@ const Category: () => JSX.Element = () => {
         {
             title: "Skiing",
             img: "skiing.jpg"
-        },
-        {
-            title: "Camping",
-            img: "camping.jpg"
         }
     ];
 

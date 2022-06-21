@@ -1,5 +1,5 @@
 import axios from "axios";
-import baseURL from "../utils/baseURL";
+import apiUrl from "../utils/apiUrl";
 import { useSetRecoilState } from "recoil";
 import { authState } from "../store";
 import { useRouter } from "next/router";
@@ -10,7 +10,7 @@ export function useAuth() {
 
     const checkAuth = () => {
         axios
-            .get(`${baseURL}/api/auth/user`, { withCredentials: true })
+            .get(`${apiUrl}/api/auth/user`, { withCredentials: true })
             .then(res => {
                 const auth = res.data;
 
